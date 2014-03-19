@@ -541,6 +541,38 @@ _PUTCHR:
 	POPAD
 	RET
 
+
+
+GMEM_FIXED	EQU	00000000H
+GMEM_ZEROINIT	EQU	00000040H
+
+;	EAX<size
+;	>EAX memory address
+
+ALLOC:
+	MOV	EBX,GMEM_FIXED+GMEM_ZEROINIT
+	PUSH	EAX
+	PUSH	EBX
+	CALL	[IAT_GlobalAlloc]
+
+	OR	EAX,EAX
+	JE	ERR_ALLOC
+
+	PUSHAD
+	MOV	EBX,EAX
+	CALL	PUTHEXD	;PUTH4
+	POPAD
+
+	RET
+
+;	EAX<memory address
+
+FREE:
+	PUSH	EAX
+	CALL	[IAT_GlobalFree]
+
+	RET
+
 ;################
 
 MEM_MAX_VALUE	EQU	USRDMA+0F0000h
@@ -3728,6 +3760,10 @@ IAT_SetFilePointer:
 	DD	ENTRY_SetFilePointer-_RDATA+_RDATA_RVA
 IAT_SetEndOfFile:
 	DD	ENTRY_SetEndOfFile-_RDATA+_RDATA_RVA
+IAT_GlobalAlloc:
+	DD	ENTRY_GlobalAlloc-_RDATA+_RDATA_RVA
+IAT_GlobalFree:
+	DD	ENTRY_GlobalFree-_RDATA+_RDATA_RVA
 
 	DD	00000000h
 
@@ -3764,8 +3800,21 @@ ENTRIES_0:
 	DD	ENTRY_GetCommandLineA-_RDATA+_RDATA_RVA
 	DD	ENTRY_SetFilePointer-_RDATA+_RDATA_RVA
 	DD	ENTRY_SetEndOfFile-_RDATA+_RDATA_RVA
+	DD	ENTRY_GlobalAlloc-_RDATA+_RDATA_RVA
+	DD	ENTRY_GlobalFree-_RDATA+_RDATA_RVA
 
 	DD	00000000h
+
+
+ENTRY_GlobalFree:
+	DW	0
+	DB	"GlobalFree",0
+	ALIGN	4
+
+ENTRY_GlobalAlloc:
+	DW	0
+	DB	"GlobalAlloc",0
+	ALIGN	4
 
 ENTRY_SetEndOfFile:
 	DW	0
