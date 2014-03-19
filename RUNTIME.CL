@@ -376,7 +376,8 @@ _TEXT:
 	;JMP	TEST6
 	;JMP	TEST7
 
-	JMP	A386_MAIN
+	;;JMP	A386_MAIN
+	JMP	RUNTIME_MAIN
 
 	PUSH	DWORD -12;-11;	PUSH	0FFFFFFF5h
 	;CALL	[IAT_GetStdHandle-_RDATA+_RDATA_RVA+BASE]	;CALL	[00402000h]
@@ -599,11 +600,11 @@ ALLOC:
 	CALL	[IAT_GlobalAlloc]
 
 	OR	EAX,EAX
-	JE	ERR_ALLOC
+	;;JE	ERR_ALLOC
 
 	PUSHAD
 	MOV	EBX,EAX
-	CALL	PUTH4
+	;;CALL	PUTH4
 	POPAD
 
 	RET
@@ -713,9 +714,10 @@ FILES	EQU	20
 
 ;USRDMA	EQU	20000H
 
+RUNTIME_MAIN:
 	mov	eax,ds
 	db	0fh,03h,0c0h	;lsl eax,eax
-	mov	[mem_max],eax
+	mov	[MEM_MAX],eax
 
 	sub	eax,100h
 	and	eax,0fffffff0h
@@ -832,17 +834,17 @@ CALL86:
 	INT	21H
 	MOV	[CDPROG],ECX
 
-	mov	ax,[_eax86]
+	mov	ax,[_EAX86]
 	mov	[prog_ax],ax
-	mov	ax,[_ebx86]
+	mov	ax,[_EBX86]
 	mov	[prog_bx],bx
-	mov	ax,[_ecx86]
+	mov	ax,[_ECX86]
 	mov	[prog_cx],ax
-	mov	ax,[_edx86]
+	mov	ax,[_EDX86]
 	mov	[prog_dx],ax
-	mov	ax,[_esi86]
+	mov	ax,[_ESI86]
 	mov	[prog_si],ax
-	mov	ax,[_edi86]
+	mov	ax,[_EDI86]
 	mov	[prog_di],ax
 
 	;CALL	COPY_PROG
@@ -863,7 +865,7 @@ COPY_PROG:
 	push	ds
 	pop	es
 
-	mov	esi,prog86
+	mov	esi,PROG86
 	mov	edi,30000H;10000h;[_phyadr]
 	mov	ecx,400h
 	cld
@@ -1056,7 +1058,7 @@ INT0D.0:
 	INT	21H
 
 		PUSH	[EBP+0]
-		CALL	_PUTHEX_L
+		;;CALL	_PUTHEX_L
 		ADD	ESP,4
 
 	MOV	DL,'<'
@@ -1065,7 +1067,7 @@ INT0D.0:
 
 	PUSH	[EBP+4]
 		;PUSH	[_spt]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,' '
@@ -1073,7 +1075,7 @@ INT0D.0:
 	INT	21H
 
 	PUSH	[EBP+8]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,' '
@@ -1081,7 +1083,7 @@ INT0D.0:
 	INT	21H
 
 	PUSH	[EBP+0CH]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,' '
@@ -1089,7 +1091,7 @@ INT0D.0:
 	INT	21H
 
 	PUSH	[EBP+10H]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,' '
@@ -1097,7 +1099,7 @@ INT0D.0:
 	INT	21H
 
 	PUSH	[EBP+14H]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,' '
@@ -1105,7 +1107,7 @@ INT0D.0:
 	INT	21H
 
 	PUSH	[EBP+18H]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	DL,0DH
@@ -1143,7 +1145,7 @@ INT0D.0:
 
 		MOV	EAX,[EBP+4]
 		PUSH	[EAX]
-		CALL	_PUTHEX_L
+		;;CALL	_PUTHEX_L
 		ADD	ESP,4
 
 ;	MOV	EBP,ESP
@@ -1190,7 +1192,7 @@ PUTREGS.10:
 	PUSH	ESI
 
 	PUSH	[ESI]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	ADD	ESP,4
 
 	MOV	AH,2
@@ -1228,25 +1230,25 @@ INT0E.0:
 
 	DB	0FH,20H,0C0H+2*8	;mov eax,cr2
 	PUSH	EAX
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	POP	EAX
 
 	MOV	EBP,ESP
 	PUSH	[EBP+0]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	POP	EAX
 
 	MOV	EBP,ESP
 	PUSH	[EBP+4]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	POP	EAX
 
 	PUSH	[EBP+8]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	POP	EAX
 
 	PUSH	[EBP+12]
-	CALL	_PUTHEX_L
+	;;CALL	_PUTHEX_L
 	POP	EAX
 
 ;	JMP	INT0E
@@ -1351,7 +1353,7 @@ LINE.E:
 
 		PUSH	7FF00H/8-11000H/8
 		PUSH	80000000H-200000H+11000H
-		CALL	__ADD_FREE
+		;;CALL	__ADD_FREE
 		ADD	ESP,4*2
 
 	;	PUSH	1FF00H/8
@@ -1386,11 +1388,11 @@ NOTV:
 	mov	eax,ARGV	;argv
 	push	eax
 	PUSH	ECX
-	CALL	_MAIN
+	CALL	_main
 	ADD	ESP,8	;4
 
 		PUSH	EBX
-		CALL	_EXIT
+		CALL	INT21_exit	;CALL	_EXIT
 		ADD	ESP,4
 
 ;	PUSH	EBX
@@ -1523,7 +1525,7 @@ END_FILE.10:
 	JE	END_FILE.20
 
 	PUSH	EDI
-	CALL	_FCLOSE
+	;;CALL	_FCLOSE
 	ADD	ESP,4
 END_FILE.20:
 
@@ -1539,7 +1541,7 @@ OPEN_DEBUG:
 
 	PUSH	DEBUG_OPENMODE
 	PUSH	DEBUG_FILENAME
-	CALL	_FOPEN
+	;;CALL	_FOPEN
 	ADD	ESP,4*2
 	OR	EBX,EBX
 	JE	OPEN_DEBUG.R
@@ -1825,6 +1827,16 @@ TOUPPER.R:
 
 
 
+;4c	exit
+;	al=code
+
+INT21_exit:
+	MOVZX	EAX,AL
+	PUSH	EAX
+	CALL	[IAT_ExitProcess]
+
+	RET
+
 ;
 ;
 ;
@@ -1841,4 +1853,10 @@ _ERRNO:	DS	4
 USRDTA:
 MYDTA:
 	DS	100H
+
+
+_main:
+	CALL	TEST_HELLO
+	XOR	EAX,EAX
+	CALL	INT21_exit
 
