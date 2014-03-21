@@ -20,7 +20,8 @@ PE_OFFSET EQU	000000C0H
 
 ;must be aligned
 ;DATA_ADD EQU 8000h+8000h+20000h
-DATA_ADD EQU 1000h+4000h+0f0000h
+;DATA_ADD EQU 1000h+4000h+0f0000h
+DATA_ADD EQU 1000h+4000h	;R.BUF+W.BUF	;+0f0000h
 
 ;TODO: get ride of ".reloc" section?
 ;TODO: make same alignment
