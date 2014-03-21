@@ -513,14 +513,14 @@ WORD_WORK_GLOBAL_INFO:
 STRING_TBL_INFO:
 	DD	0	;STRING_TBL
 	DD	0	;STRING_TBL_END
-	DD	0
-	DD	0
+	DD	0	;not used
+	DD	0	;not used
 
 STRING_MACRO_TBL_INFO:
 	DD	0	;STRING_MACRO_TBL
 	DD	0	;STRING_MACRO_TBL_END
-	DD	0
-	DD	0
+	DD	0	;not used
+	DD	0	;not used
 
 ;-------------- ECTBL.ASM end ---------------
 
