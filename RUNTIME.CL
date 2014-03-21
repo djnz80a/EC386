@@ -426,7 +426,7 @@ FREE:
 
 	PUBLIC	SIZEOF_FILE
 	PUBLIC	FILE_WORK
-	PUBLIC	MALLOC_MAX
+	;PUBLIC	MALLOC_MAX
 	PUBLIC	MALLOC_P
 	PUBLIC	MEM_MAX
 
@@ -489,30 +489,41 @@ FILES	EQU	20
 ;USRDMA	EQU	20000H
 
 RUNTIME_MAIN:
-	mov	eax,ds
-	db	0fh,03h,0c0h	;lsl eax,eax
-	mov	[MEM_MAX],eax
+;	PUSH	DWORD -10
+;	CALL	[IAT_GetStdHandle]
+;	MOV	[HDL_STDIN],EAX
 
-	sub	eax,100h
-	and	eax,0fffffff0h
+;	PUSH	DWORD -11
+;	CALL	[IAT_GetStdHandle]
+;	MOV	[HDL_STDOUT],EAX
 
-	CLI
-	MOV	ESP,eax	;40000H
-	mov	eax,ds
-	mov	ss,eax
-	STI
+	;mov	eax,ds
+	;db	0fh,03h,0c0h	;lsl eax,eax
+	;mov	[MEM_MAX],eax
 
-	MOV	EAX,ESP
-	SUB	EAX,8000H
-	MOV	[MALLOC_MAX],EAX
+	;sub	eax,100h
+	;and	eax,0fffffff0h
 
-	call	SETINT	;setint
+	;CLI
+	;MOV	ESP,eax	;40000H
+	;mov	eax,ds
+	;mov	ss,eax
+	;STI
+
+	;MOV	EAX,ESP
+	;SUB	EAX,8000H
+	;MOV	[MALLOC_MAX],EAX
+
+	;call	SETINT	;setint
 
 	;	CALL	EXPAND_SEG
 	;	DB	0FH,20H,0D8H	;MOV EAX,CR3
 	;	DB	0FH,22H,0D8H	;MOV CR3,EAX
 
+	JMP	TEST_HELLO
+
 	JMP	START
+
 
 ;
 ;
@@ -1216,6 +1227,8 @@ GET_PROGNAME.20:
 ;
 
 GETCLINE:
+	JMP	GETCLINE_win
+
 	PUSH	DS
 	MOV	AX,DS
 	MOV	ES,AX
@@ -1242,6 +1255,57 @@ GETCLINE:
 
 	XOR	EAX,EAX
 	STOSB
+	RET
+
+GETCLINE_win:
+	PUSH	DS
+	MOV	AX,DS
+	MOV	ES,AX
+
+	;MOV	AX,4
+	;MOV	DS,AX
+
+	MOV	ESI,[CMDLINE]
+GETCLINE_win.10:
+	MOV	AL,[ESI]
+	OR	AL,AL
+	JE	GETCLINE_win.20
+	CMP	AL,' '
+	JBE	GETCLINE_win.20
+	INC	ESI
+	JMP	GETCLINE_win.10
+
+GETCLINE_win.20:
+
+;	;MOV	ESI,0080H
+;	MOV	EDI,CLINE
+;	MOV	ECX,80H
+;	CLD
+;	REP
+;	MOVSB
+
+	MOV	EDI,CLINE
+GETCLINE_win.30:
+	MOV	AL,[ESI]
+	CMP	AL,20h
+	JB	GETCLINE_win.40
+	MOV	[EDI],AL
+	INC	ESI
+	INC	EDI
+	OR	AL,AL
+	JMP	GETCLINE_win.30
+
+GETCLINE_win.40:
+	MOV	AL,0
+	MOV	[EDI],AL
+
+	INC	EDI
+	MOV	[EDI],AL
+	INC	EDI
+	MOV	[EDI],AL
+
+	POP	DS
+
 	RET
 
 ;
