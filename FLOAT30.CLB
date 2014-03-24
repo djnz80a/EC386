@@ -798,7 +798,7 @@ fsub.rr:
 	pop	ebp
 	ret
 
-fsub.sgn:ds	2
+;fsub.sgn:ds	2
 	
 	db	'_fmul',0
 _fmul:
@@ -1672,7 +1672,7 @@ set_f.51:
 	stosb
 	jmp	set_f.r
 
-set_f.work:ds	100
+;set_f.work:ds	100
 
 set_f.r:
 	pop	eax
