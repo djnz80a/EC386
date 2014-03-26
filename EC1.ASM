@@ -619,7 +619,7 @@ MES_USAGE:
 	DB	0DH,0AH
 	DB	'Exp file Compiler',0DH,0AH
 	DB	'	programmed by djnz80a',0DH,0AH
-	DB	'run386 ec1 source [options]',0DH,0AH
+	DB	'EC386 source [options]',0DH,0AH
 	DB	0DH,0AH
 	DB	'/v .. verbose',0DH,0AH
 	DB	'/d .. debug',0DH,0AH

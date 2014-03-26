@@ -1,3 +1,2 @@
-EC1
+EC386
 ===
-386 C Compiler
