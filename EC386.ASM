@@ -87,14 +87,14 @@ TEST2:
 	PUSH	N_READ
 	PUSH	100
 	PUSH	READ_BUF
-	PUSH	[HDL_STDIN]
+	PUSH	DWORD [HDL_STDIN]
 	call	[IAT_ReadFile]
 
 	PUSH	0
 	PUSH	N_WROTE
-	PUSH	[N_READ]
+	PUSH	DWORD [N_READ]
 	PUSH	READ_BUF
-	PUSH	[HDL_STDOUT]
+	PUSH	DWORD [HDL_STDOUT]
 	call	[IAT_WriteFile]
 
 	MOV	EAX,[N_READ]
@@ -131,7 +131,7 @@ TEST3:
 	CALL	[IAT_WriteFile]
 
 
-	PUSH	[HDL_OUTFILE]
+	PUSH	DWORD [HDL_OUTFILE]
 	CALL	[IAT_CloseHandle]
 
 	RET
@@ -240,7 +240,7 @@ _PUTCHR:
 	push	EAX	;push	N_WROTE	;0
 	push	01h
 	push	PUTCHR_BUF
-	push	[HDL_STDOUT]
+	push	DWORD [HDL_STDOUT]
 	CALL	[IAT_WriteFile]
 
 	POP	EAX
@@ -372,94 +372,6 @@ A386_MAIN:
 	;ORG	0
 
 	JMP	START
-
-;
-;
-;
-
-SETINT:
-	PUSH	DS
-
-	CLI
-	MOV	AX,CS
-	MOV	DS,AX
-	MOV	EDX,INT00
-	MOV	EBX,EDX
-	MOV	AX,2504H
-	MOV	CL,0
-	CALL	INT21_setinterrupt	;INT	21H
-
-	MOV	EDX,INT0D
-	MOV	EBX,EDX
-	MOV	AX,2504H
-	MOV	CL,0DH
-	CALL	INT21_setinterrupt	;INT	21H
-
-	POP	DS
-	STI
-	RET
-
-;
-
-INT00:
-	MOV	EDX,EMES_DIV
-	MOV	AH,09H
-	CALL	INT21_putstr	;INT	21H
-
-	JMP	INT00
-
-;
-
-INT0D:
-	CLI
-	push	14h
-	pop	ds
-	mov	[dump_eax],eax
-	mov	[dump_ebx],ebx
-
-	mov	byte [flg.v],0ffh
-	mov	byte [flg.d],0ffh
-
-	MOV	EDX,EMES_PROT
-	MOV	AH,09H
-	CALL	INT21_putstr	;INT	21H
-
-	mov	al,'b'
-	call	putchr_con
-	mov	eax,[dump_ebx]
-	call	disp_ax
-	mov	al,' '
-	call	putchr_con
-
-	MOV	EAX,ESP
-	CALL	DISP_AX
-	MOV	AL,'='
-	CALL	PUTCHR_con
-
-	MOV	EBP,ESP
-	MOV	EAX,[EBP+0]
-	CALL	DISP_AX
-	MOV	AL,':'
-	CALL	PUTCHR_CON
-	MOV	EBP,ESP
-	MOV	EAX,[EBP+4]
-	CALL	DISP_AX
-	MOV	AL,':'
-	CALL	PUTCHR_CON
-	MOV	EBP,ESP
-	MOV	EAX,[EBP+8]
-	CALL	DISP_AX
-
-	JMP	INT0D
-
-
-
-EMES_DIV:
-	DB	'divided by 0$'
-
-
-EMES_PROT:
-	DB	'general protection$'
 
 ;
 ;
