@@ -117,7 +117,7 @@ HEADER:
 
 	;DS	HEADER+0c0h-$
 	;;DS	BASE+PE_OFFSET-$
-	DS	0c0h-80h
+	DEFS	0c0h-80h
 
 ;+c0
 	DB	'P','E', 00h, 00h
