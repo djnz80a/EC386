@@ -1,4 +1,4 @@
-#include <float30.CLB>
+#INCLUDE <FLOAT30.CLB>
 
 
 IS_FUNC_NAME:
