@@ -536,19 +536,19 @@ MES_USAGE:
 	DB	'/DNAME .. define',0DH,0AH
 	DB	'/p .. preprocessing',0DH,0AH
 	DB	'/m ,, memory listing on error',0DH,0AH
-	DB	"/t .. test compile(don't make output)",0DH,0AH
+	;DB	"/t .. test compile(don't make output)",0DH,0AH
 	DB	'/oN .. optimize mode',0DH,0AH
 	DB	'/l .. 32bit pointer',0DH,0AH
-	DB	'/sN .. subfile label#',0DH,0AH
+	;DB	'/sN .. subfile label#',0DH,0AH
 	DB	'/3 .. 386 mode',0DH,0AH
-	DB	'/rX .. reference drive',0DH,0AH
+	;DB	'/rX .. reference drive',0DH,0AH
 	DB	'/n .. output name in comment',0DH,0AH
 	DB	'/k .. k&r',0DH,0AH
 	DB	'/u .. assume undefined func to be int',0DH,0AH
 	DB	'/a .. register allocation',0DH,0AH
 	DB	'/z .. output token',0DH,0AH
 	DB	'/b .. bit field',0DH,0AH
-	DB	'/+ .. c++ mode',0DH,0AH
+	;DB	'/+ .. c++ mode',0DH,0AH
 	DB	'$'
 
 CHKLIN:
