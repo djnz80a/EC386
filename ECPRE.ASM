@@ -1772,6 +1772,8 @@ SUBI7:
 		CMP	AL,'<'
 		JNE	INCL.20
 
+	JMP	INCL.20
+
 		MOV	AX,[ESI]
 		CMP	AH,':'
 		JE	INCL.20
