@@ -409,12 +409,12 @@ EXP_L.10:
 	JNE	EXP_L.R
 
 	CMP	AX,'<<'
-	MOV	BX,'=l'
+	MOV	BX,'l='
 	;JE	EXP_SHL
 	JE	EXP_LETX
 
 	CMP	AX,'>>'
-	MOV	BX,'=r'
+	MOV	BX,'r='
 	;JE	EXP_SHR
 	JE	EXP_LETX
 
@@ -551,9 +551,9 @@ EXP_LETX:
 	CALL	COND_TO_ARITH
 
 		POP	EAX
-		CMP	AX,'=l'
+		CMP	AX,'l='
 		JE	EXP_LETX.SHL
-		CMP	AX,'=r'
+		CMP	AX,'r='
 		JE	EXP_LETX.SHR
 		CMP	AX,'%='
 		JE	EXP_LETX.MOD
