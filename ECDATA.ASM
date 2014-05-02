@@ -85,7 +85,7 @@ WORD_ENDIF:DB	'endif',0
 WORD_ELIF:DB	'elif',0
 WORD_INCLUDE:DB	'include',0
 
-word_defined:db	'defined',0
+WORD_DEFINED:DB	'DEFINED',0
 
 DUMMY_STR:DB	'--',0
 
@@ -280,8 +280,8 @@ FUNC_PNT:	DD	0
 
 ARG_LEVEL:	DD	0
 
-func_init_exp_top:	DD	0
-func_init_exp:		DD	0
+FUNC_INIT_EXP_TOP:	DD	0
+FUNC_INIT_EXP:		DD	0
 
 FUNC_TYPE:	DD	0
 

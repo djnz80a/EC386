@@ -1147,10 +1147,10 @@ LOAD:
 		CMP	ECX,00C4H
 		JE	LOAD.LONG
 
-		mov	ebx,[ecx+NODE1]
-		mov	ax,[ebx]
-		cmp	ax,'['
-		je	load.PAR
+		MOV	EBX,[ECX+NODE1]
+		MOV	AX,[EBX]
+		CMP	AX,'['
+		JE	LOAD.PAR
 
 	CALL	IS_L
 	JE	LOAD.ULONG
@@ -1515,8 +1515,8 @@ PRINT_PNT_REG:
 PRINT_REG_VAR:
 	MOV	[REG_NAME],EAX
 
-	push	ebx
-	call	print
+	PUSH	EBX
+	CALL	PRINT
 	db	'	MOV	%r,[%n]','$'
 	CALL	PUT_CNAME
 	CALL	PUT_CRLF

@@ -117,11 +117,11 @@ SIZEOF.A.10:
 	JE	SIZEOF.A.S
 
 	MOV	EBX,[ESI+NODE3]
-		cmp	ebx,-1
-		je	err_sizeof
+		CMP	EBX,-1
+		JE	ERR_SIZEOF
 	MOV	EAX,[EBX+NODE4]
-		cmp	eax,-1
-		je	err_sizeof
+		CMP	EAX,-1
+		JE	ERR_SIZEOF
 	MUL	EDX
 	MOV	EDX,EAX
 	JMP	SIZEOF.A
@@ -167,8 +167,8 @@ SIZEOF.N:
 		CALL	SIZEOF
 		RET
 
-	cmp	esi,100h
-	jb	sizeof.n.10
+	CMP	ESI,100H
+	JB	SIZEOF.N.10
 
 	MOV	EBX,[ESI+NODE1]
 	MOV	AX,[EBX]
@@ -177,7 +177,7 @@ SIZEOF.N:
 	JE	SIZEOF.N.A
 	CMP	AX,'*'
 	JE	SIZEOF.N.P
-sizeof.n.10:
+SIZEOF.N.10:
 	CALL	SIZEOF
 	JMP	SIZEOF.E
 
@@ -186,11 +186,11 @@ SIZEOF.N.A:
 	CALL	SIZEOF
 	POP	ESI
 	MOV	EBX,[ESI+NODE3]
-		cmp	ebx,-1
-		je	err_sizeof
+		CMP	EBX,-1
+		JE	ERR_SIZEOF
 	MOV	EAX,[EBX+NODE4]
-		cmp	eax,-1
-		je	err_sizeof
+		CMP	EAX,-1
+		JE	ERR_SIZEOF
 	MUL	EDX
 	MOV	EDX,EAX
 	RET

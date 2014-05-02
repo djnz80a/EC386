@@ -1763,21 +1763,21 @@ set_hex.20:
 
 	end
 
-	PUBLIC	_set_f
-	PUBLIC	_get_f
-	PUBLIC	_fdiv
-	PUBLIC	_fmul
-	PUBLIC	_fsub
-	PUBLIC	_fadd
-	PUBLIC	_fnormal
-	PUBLIC	_fneg
-	PUBLIC	_fabs
-	PUBLIC	_itof
-	PUBLIC	_ltof
-	PUBLIC	_ultof
-	PUBLIC	_ftoi
-	PUBLIC	_ftol
-	PUBLIC	_ldexp
-	PUBLIC	_frexp
-	PUBLIC	_fsgn
-	PUBLIC	_fcomp
+	GLOBAL	_set_f
+	GLOBAL	_get_f
+	GLOBAL	_fdiv
+	GLOBAL	_fmul
+	GLOBAL	_fsub
+	GLOBAL	_fadd
+	GLOBAL	_fnormal
+	GLOBAL	_fneg
+	GLOBAL	_fabs
+	GLOBAL	_itof
+	GLOBAL	_ltof
+	GLOBAL	_ultof
+	GLOBAL	_ftoi
+	GLOBAL	_ftol
+	GLOBAL	_ldexp
+	GLOBAL	_frexp
+	GLOBAL	_fsgn
+	GLOBAL	_fcomp

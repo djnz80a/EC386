@@ -666,15 +666,15 @@ SW80:
 
 
 
-SW81:	cmp	al,'r'
-	jne	sw.82
-	lodsb
-	mov	[REF_DRV],al
-	jmp	sw
+SW81:	CMP	AL,'R'
+	JNE	SW.82
+	LODSB
+	MOV	[REF_DRV],AL
+	JMP	SW
 
 
 
-sw.82:
+SW.82:
 	CMP	AL,'n'
 	JNE	SW.83
 	MOV	BYTE [FLG.N],01
@@ -773,8 +773,8 @@ NOT.CREATE:
 	CALL	SET_WORD1_MACRO_BX
 	MOV	BYTE [FLG.SET_STRING_MACRO],0
 
-	mov	eax,ref_drv
-	mov	[print_arg],eax
+	MOV	EAX,REF_DRV
+	MOV	[PRINT_ARG],EAX
 
 	CALL	IS_L
 	JE	PRINT_HEADER.10
@@ -824,26 +824,26 @@ MAIN:
 
 ;	CALL	CHECK_WORD
 
-	mov	esi,word_work
-	mov	al,[esi]
-	cmp	al,1ah
-	je	main_e
+	MOV	ESI,WORD_WORK
+	MOV	AL,[ESI]
+	CMP	AL,1AH
+	JE	MAIN_E
 
-	push	main	;ret.adrs
+	PUSH	MAIN	;RET.ADRS
 
-	mov	edi,word_typedef
-	call	strcmp
-	je	_typedef
+	MOV	EDI,WORD_TYPEDEF
+	CALL	STRCMP
+	JE	_TYPEDEF
 
-	mov	edi,word_asm
-	call	strcmp
-	je	_asm
+	MOV	EDI,WORD_ASM
+	CALL	STRCMP
+	JE	_ASM
 
 	MOV	EDI,WORD_OPT
 	CALL	STRCMP
 	JE	_OPT
 
-	pop	eax	;not call
+	POP	EAX	;NOT CALL
 
 	;mov	edi,word_end
 	;call	strcmp
@@ -852,7 +852,7 @@ MAIN:
 	;call	is_typename
 	;jne	err_syntax
 
-	call	declare
+	CALL	DECLARE
 
 	;PUSHAD
 	;CALL	DISP
@@ -2785,8 +2785,8 @@ _FUNC:
 	MOV	EAX,[WORD_WORK_GLOBAL_INFO+INFO3]	;2*4]
 	MOV	[WORD_WORK_GLOBAL_SAVE],EAX
 
-	mov	dword [func_init_exp],0
-	mov	dword [func_init_exp_top],0
+	MOV	DWORD [FUNC_INIT_EXP],0
+	MOV	DWORD [FUNC_INIT_EXP_TOP],0
 
 	;push	DWORD [word_work_label_info]
 	;pop	DWORD [word_work_label_info+INFO2]
@@ -2871,19 +2871,19 @@ _FUNC.PROG:
 	PUSH	DWORD [STRING_PNT]
 	PUSH	DWORD [FUNC_PNT]
 
-	mov	esi,[func_init_exp_top]
-_func.init.10:
-	or	esi,esi
-	je	_func.init.e
+	MOV	ESI,[FUNC_INIT_EXP_TOP]
+_FUNC.INIT.10:
+	OR	ESI,ESI
+	JE	_FUNC.INIT.E
 
-	push	esi
-	mov	esi,[esi+NODE2]
-	call	mk
-	pop	esi
-	mov	esi,[esi+NODE3]
-	jmp	_func.init.10
+	PUSH	ESI
+	MOV	ESI,[ESI+NODE2]
+	CALL	MK
+	POP	ESI
+	MOV	ESI,[ESI+NODE3]
+	JMP	_FUNC.INIT.10
 
-_func.init.e:
+_FUNC.INIT.E:
 
 	;CALL	BLOCK
 _FUNC.PROG.10:

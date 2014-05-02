@@ -255,27 +255,27 @@ MK_CONST.ADR.ADD.NO:
 MK_CONST.NO:
 	MOV	EBX,[ESI+NODE4]
 
-	cmp	ecx,1
-	je	mk_const.b
-	cmp	ecx,81h
-	je	mk_const.b
-	cmp	ecx,2
-	je	mk_const.w
-	cmp	ecx,82h
-	je	mk_const.w
-	jmp	mk_const.l
+	CMP	ECX,1
+	JE	MK_CONST.B
+	CMP	ECX,81H
+	JE	MK_CONST.B
+	CMP	ECX,2
+	JE	MK_CONST.W
+	CMP	ECX,82H
+	JE	MK_CONST.W
+	JMP	MK_CONST.L
 
-mk_const.b:
-	call	print
+MK_CONST.B:
+	CALL	PRINT
 	db	'%B$'
 	ret
 
-mk_const.w:
-	call	print
+MK_CONST.W:
+	CALL	PRINT
 	db	'%D$'
 	ret
 
-mk_const.l:
+MK_CONST.L:
 		CMP	DWORD [ESI+NODE2],ECX
 		JE	MK_CONST.L.20
 
@@ -292,12 +292,12 @@ mk_const.l:
 		JE	MK_CONST.L.10
 
 		PUSH	EBX
-		CALL	_LTOF
+		CALL	_ltof
 		ADD	ESP,4
 		JMP	MK_CONST.L.11
 MK_CONST.L.10:
 		PUSH	EBX
-		CALL	_ULTOF
+		CALL	_ultof
 		ADD	ESP,4
 MK_CONST.L.11:
 		JMP	MK_CONST.L.20
@@ -305,15 +305,15 @@ MK_CONST.L.11:
 		JMP	ERR_TYPE
 
 MK_CONST.L.20:
-	call	print
+	CALL	PRINT
 	db	'%L$'
 	ret
 
 MK_CONST.DQ:
-	mov	eax,[type_int]
-	and	eax,7fh
-	cmp	eax,ecx
-;	jne	mk_const.err
+	MOV	EAX,[TYPE_INT]
+	AND	EAX,7FH
+	CMP	EAX,ECX
+;	JNE	MK_CONST.ERR
 
 	PUSH	ESI
 	CALL	PRINT
@@ -322,11 +322,11 @@ MK_CONST.DQ:
 
 	RET
 
-mk_const.err:
-	call	disp_con
+MK_CONST.ERR:
+	CALL	DISP_CON
 	db	'err_mk_const$'
 
-	jmp	err_type
+	JMP	ERR_TYPE
 
 ;
 ;
@@ -828,8 +828,8 @@ MK_INCDEC.RGE:
 MK_PREINCDEC.12:
 	MOV	EBX,EDX
 
-	call	is_l
-	je	mk_incdec_SUB.l
+	CALL	IS_L
+	JE	MK_INCDEC_SUB.L
 
 
 MK_INCDEC_SUB.W:
@@ -1951,8 +1951,8 @@ MK_LET.OPTN:
 	JE	MK_LET.OPT.LONG
 
 MK_LET.OPT.PNT:
-	call	is_l
-	je	mk_let.opt.long
+	CALL	IS_L
+	JE	MK_LET.OPT.LONG
 
 MK_LET.OPT.INT:
 	PUSH	ECX
@@ -2452,8 +2452,8 @@ MK_FNC:
 		jb	MK_FNC.05
 
 	MOV	EBX,[ESI+NODE2]	;left
-		cmp	ebx,100h
-		jb	mk_fnc.05
+		CMP	EBX,100H
+		JB	MK_FNC.05
 
 	MOV	EBX,[EBX+NODE1]
 	MOV	AX,[EBX]
@@ -2662,8 +2662,8 @@ ADD_ARG_CNT:
 
 ADD_ARG_CNT.05:
 	MOV	EAX,4
-	call	is_l
-	je	ADD_ARG_CNT.10
+	CALL	IS_L
+	JE	ADD_ARG_CNT.10
 
 	CMP	ECX,0004H
 	JE	ADD_ARG_CNT.10

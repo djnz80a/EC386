@@ -194,8 +194,8 @@ IS_TYPENAME.NTCPP:
 
 	MOV	ESI,EBX
 	MOV	EBX,[EBX+NODE2]
-		cmp	ebx,100h
-		jb	is_typename.n
+		CMP	EBX,100H
+		JB	IS_TYPENAME.N
 	MOV	EBX,[EBX+NODE1]
 
 		;	MOV	AX,[EBX]
@@ -717,10 +717,10 @@ STRUCT.03:
 
 ;	struct name {
 
-	mov	esi,edi		;name
+	MOV	ESI,EDI		;NAME
 
-	mov	byte [ebp+W6],2
-	jmp	struct.par
+	MOV	BYTE [EBP+W6],2
+	JMP	STRUCT.PAR
 
 	CALL	DISP_CON
 	DB	'duplicate struct$'
@@ -740,12 +740,12 @@ STRUCT.20:
 
 ;	esi:struct name
 
-	mov	byte [ebp+W6],0
+	MOV	BYTE [EBP+W6],0
 
-	cmp	byte [word_work],'{'
-	je	struct.par
+	CMP	BYTE [WORD_WORK],'{'
+	JE	STRUCT.PAR
 
-	mov	byte [ebp+W6],1
+	MOV	BYTE [EBP+W6],1
 
 	JMP	STRUCT.PAR
 
@@ -1194,8 +1194,8 @@ _INT.NOTREG:
 _INT.10.1:
 
 
-	cmp	byte [FLG.STATIC],0
-	je	_int.10.2
+	CMP	BYTE [FLG.STATIC],0
+	JE	_INT.10.2
 
 		MOV	EBX,1		;###test for bug
 		JMP	_INT.10.10
@@ -1209,9 +1209,9 @@ _INT.10.1:
 		CALL	MAKE_LABEL_STATIC	;#####
 
 _INT.10.10:
-	mov	[edi+NODE6],ebx
+	MOV	[EDI+NODE6],EBX
 
-_int.10.2:
+_INT.10.2:
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'{'
 	JE	_INT.FUNC
@@ -1231,8 +1231,8 @@ _INT.11:
 	OR	EBX,EBX
 	JE	_INT.12
 
-		cmp	byte [flg.extrn],0ffh
-		je	_int.12		;###
+		CMP	BYTE [FLG.EXTRN],0FFH
+		JE	_INT.12		;###
 
 ;	local
 
@@ -1250,12 +1250,12 @@ _INT.11:
 	MOV	EBX,[LOCAL_LEVEL]
 	MOV	[EDI+NODE7],EBX
 
-	mov	ax,[word_work]
-	cmp	ax,'='
-	je	_int.local.init
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'='
+	JE	_INT.LOCAL.INIT
 	JMP	_INT.20
 
-_int.local.init:
+_INT.LOCAL.INIT:
 		PUSHAD
 		MOV	EBX,[EBP+W2]	;name
 		MOV	EBX,[EBX+NODE2]
@@ -1275,52 +1275,52 @@ _INT.LOCAL.INIT.ARY.E:
 ;	push	DWORD [NAME_PNT]
 	PUSH	EDI
 
-	call	get_word	;skip '='
-	;call	exp
+	CALL	GET_WORD	;SKIP '='
+	;CALL	EXP
 		CALL	EXP_L	;
-	call	cond_to_arith	;#
+	CALL	COND_TO_ARITH	;#
 
-		pop	eax
-		push	eax
-		mov	edx,ecx
-		mov	ecx,[eax+NODE2]
-		call	castif
+		POP	EAX
+		PUSH	EAX
+		MOV	EDX,ECX
+		MOV	ECX,[EAX+NODE2]
+		CALL	CASTIF
 
-	mov	ax,'='
-	call	make_word1_exp
-	mov	[ebx+NODE3],esi
-	mov	esi,ebx
+	MOV	AX,'='
+	CALL	MAKE_WORD1_EXP
+	MOV	[EBX+NODE3],ESI
+	MOV	ESI,EBX
 
-	pop	ebx
-	mov	[esi+NODE2],ebx
+	POP	EBX
+	MOV	[ESI+NODE2],EBX
 
-	mov	eax,[func_init_exp_top]
-	cmp	eax,-1
-	jne	_int.local.init.10
+	MOV	EAX,[FUNC_INIT_EXP_TOP]
+	CMP	EAX,-1
+	JNE	_INT.LOCAL.INIT.10
 
-	call	mk
-	jmp	_int.20
+	CALL	MK
+	JMP	_INT.20
 
-_int.local.init.10:
-	mov	ax,'i='
-	call	make_word1
+_INT.LOCAL.INIT.10:
+	MOV	AX,'I='
+	CALL	MAKE_WORD1
 
-	mov	ecx,[func_init_exp]
-	or	ecx,ecx
-	je	_int.local.init.20
+	MOV	ECX,[FUNC_INIT_EXP]
+	OR	ECX,ECX
+	JE	_INT.LOCAL.INIT.20
 
-	mov	[ecx+NODE3],ebx
-	mov	[ebx+NODE2],esi
-	mov	[func_init_exp],ebx
-	jmp	_int.local.init.50
+	MOV	[ECX+NODE3],EBX
+	MOV	[EBX+NODE2],ESI
+	MOV	[FUNC_INIT_EXP],EBX
+	JMP	_INT.LOCAL.INIT.50
 
-_int.local.init.20:
-	mov	[ebx+NODE2],esi
-	mov	[func_init_exp],ebx
-	mov	[func_init_exp_top],ebx
+_INT.LOCAL.INIT.20:
+	MOV	[EBX+NODE2],ESI
+	MOV	[FUNC_INIT_EXP],EBX
+	MOV	[FUNC_INIT_EXP_TOP],EBX
 
-_int.local.init.50:
-	jmp	_int.20
+_INT.LOCAL.INIT.50:
+	JMP	_INT.20
 
 _INT.11.STATIC:
 
@@ -1328,13 +1328,13 @@ _INT.11.STATIC:
 _INT.12:
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'='
-	jne	_int.15
+	JNE	_INT.15
 
 	MOV	EDI,[EBP+W2]
-	call	_init
-	jmp	_int.20
+	CALL	_INIT
+	JMP	_INT.20
 
-_int.15:
+_INT.15:
 	CMP	BYTE [FLG.EXTRN],0
 	JNE	_INT.20
 
@@ -1374,20 +1374,20 @@ _INT.R:
 ;	edi:name
 ;
 
-_init:
-	mov	[name_pnt],edi
+_INIT:
+	MOV	[NAME_PNT],EDI
 
-	CALL	GET_WORD	;skip '='
+	CALL	GET_WORD	;SKIp '='
 
 		CALL	PRINT_ALIGN4
 
 	PUSH	DWORD [NAME_PNT]
-	call	print
+	CALL	PRINT
 	db	'%n:',0dh,0ah,'$'
 
 	MOV	ESI,[NAME_PNT]
 	MOV	ESI,[ESI+NODE2]
-_init.10:
+_INIT.10:
 	CMP	ESI,100H
 	JB	_INIT.SIMPLE
 
@@ -1397,12 +1397,12 @@ _init.10:
 	JE	_INIT.SIMPLE
 
 	CMP	AX,'['
-	je	_INIT.ARY.0
+	JE	_INIT.ARY.0
 
-	cmp	ax,'{'
-	je	_init.struct
+	CMP	AX,'{'
+	JE	_INIT.STRUCT
 
-	jmp	err_type
+	JMP	ERR_TYPE
 
 ;	array
 
@@ -1415,41 +1415,41 @@ _INIT.ARY.0:
 
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'{'
-	JE	_init.ary
-		jmp	_init.ary	;test
+	JE	_INIT.ARY
+		JMP	_INIT.ARY	;TEST
 	JMP	ERR_SYNTAX
 
 _INIT.DQ:
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'"'
-	je	_init.dq2
-	jmp	_init.ary
+	JE	_INIT.DQ2
+	JMP	_INIT.ARY
 
 
 _INIT.SIMPLE:
-	mov	al,09h
-	call	putchr
+	MOV	AL,09H
+	CALL	PUTCHR
 
 	PUSH	DWORD [WORD_WORK_EXP_INFO+INFO2]
 	PUSH	DWORD [WORD_WORK_EXP_INFO+INFO3]
 
-	push	esi
-	push	esi
-	mov	eax,esi
-	call	print_type
-	pop	esi
+	PUSH	ESI
+	PUSH	ESI
+	MOV	EAX,ESI
+	CALL	PRINT_TYPE
+	POP	ESI
 	CALL	EXP_CONST
-	pop	ecx
+	POP	ECX
 	CALL	MK_CONST
 
 	POP	DWORD [WORD_WORK_EXP_INFO+INFO3]
 	POP	DWORD [WORD_WORK_EXP_INFO+INFO2]
 
 	CALL	PRINT_CRLF
-_init.r:
-	ret
+_INIT.R:
+	RET
 
-_init.struct:
+_INIT.STRUCT:
 	MOV	DL,[ESI+NODE4]	;struct/union
 
 		MOV	DH,0;1
@@ -1457,64 +1457,64 @@ _init.struct:
 		CMP	AX,'{'
 		JNE	_INIT.STRUCT.LPARE
 
-	mov	ax,'{'
-	call	skip_word
+	MOV	AX,'{'
+	CALL	SKIP_WORD
 		MOV	DH,1
 
 _INIT.STRUCT.LPARE:
 
 ;	jmp	_init.struct.20
-	mov	esi,[esi+NODE3]
+	MOV	ESI,[ESI+NODE3]
 
-_init.struct.10:
+_INIT.STRUCT.10:
 	PUSH	EDX
-	push	esi
-	mov	esi,[esi+NODE2]	;member to type
-	call	_init.10
-	pop	esi
+	PUSH	ESI
+	MOV	ESI,[ESI+NODE2]	;member to type
+	CALL	_INIT.10
+	POP	ESI
 	POP	EDX
 	OR	DL,DL
 	JNE	_INIT.STRUCT.80	;if union
 
-	mov	esi,[esi+NODE3]	;from below
+	MOV	ESI,[ESI+NODE3]	;FROM BELOW
 
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.struct.80
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.STRUCT.80
 
-_init.struct.20:
-	;;mov	esi,[esi+NODE3]	;to above
-	or	esi,esi
-	je	_init.struct.75	;80
+_INIT.STRUCT.20:
+	;;MOV	ESI,[ESI+NODE3]	;TO ABOVE
+	OR	ESI,ESI
+	JE	_INIT.STRUCT.75	;80
 
-	mov	ax,','
-	call	skip_word
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.struct.80
-	jmp	_init.struct.10
+	MOV	AX,','
+	CALL	SKIP_WORD
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.STRUCT.80
+	JMP	_INIT.STRUCT.10
 
-_init.struct.75:
+_INIT.STRUCT.75:
 		CMP	DH,0
 		JE	_INIT.STRUCT.80
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.struct.80
-	mov	ax,','
-	call	skip_word
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.STRUCT.80
+	MOV	AX,','
+	CALL	SKIP_WORD
 
-_init.struct.80:
+_INIT.STRUCT.80:
 		CMP	DH,0
 		JE	_INIT.STRUCT.RPARE
-	mov	ax,'}'
-	call	skip_word
+	MOV	AX,'}'
+	CALL	SKIP_WORD
 _INIT.STRUCT.RPARE:
 		OR	DL,DL
 		JNE	_INIT.STRUCT.86
 
 		OR	ESI,ESI
 		JNE	_INIT.STRUCT.90
-		JMP	_init.r
+		JMP	_INIT.R
 
 _INIT.STRUCT.86:
 	PUSH	ESI
@@ -1552,7 +1552,7 @@ _INIT.STRUCT.88:
 	DB	'	DS	%L',0DH,0AH,'$'
 
 _INIT.STRUCT.89:
-	jmp	_init.r
+	JMP	_INIT.R
 
 _INIT.STRUCT.90:
 	PUSH	ESI
@@ -1566,108 +1566,108 @@ _INIT.STRUCT.90:
 	MOV	ESI,[ESI+NODE3]
 	OR	ESI,ESI
 	JNE	_INIT.STRUCT.90
-	JMP	_init.r
+	JMP	_INIT.R
 
 ;	esi:node '['
 
-_init.ary:
-	mov	bl,0
-	mov	ax,[word_work]
-	cmp	ax,'{'
-	jne	_init.ary.05
+_INIT.ARY:
+	MOV	BL,0
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'{'
+	JNE	_INIT.ARY.05
 
-	mov	ax,'{'
-	call	skip_word
-	mov	bl,1
-_init.ary.05:
-	push	ebx
+	MOV	AX,'{'
+	CALL	SKIP_WORD
+	MOV	BL,1
+_INIT.ARY.05:
+	PUSH	EBX
 
-	mov	ebx,[esi+NODE3]	;node '00'
-	cmp	ebx,-1
-	je	_init.ary.06
-	mov	ebx,[ebx+NODE4]	;number
-_init.ary.06:
+	MOV	EBX,[ESI+NODE3]	;NODE '00'
+	CMP	EBX,-1
+	JE	_INIT.ARY.06
+	MOV	EBX,[EBX+NODE4]	;NUMBER
+_INIT.ARY.06:
 
-	mov	ecx,0
-_init.ary.10:
-	push	ebx
-	push	ecx
-	push	esi
-	mov	esi,[esi+NODE2]
-	call	_init.10
-	pop	esi
-	pop	ecx
-	pop	ebx
-	inc	ecx
+	MOV	ECX,0
+_INIT.ARY.10:
+	PUSH	EBX
+	PUSH	ECX
+	PUSH	ESI
+	MOV	ESI,[ESI+NODE2]
+	CALL	_INIT.10
+	POP	ESI
+	POP	ECX
+	POP	EBX
+	INC	ECX
 
-	cmp	ecx,ebx
-	jnb	_init.ary.50
+	CMP	ECX,EBX
+	JNB	_INIT.ARY.50
 
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.ary.50
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.ARY.50
 
-	mov	ax,','
-	call	skip_word
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.ary.50
+	MOV	AX,','
+	CALL	SKIP_WORD
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.ARY.50
 
-	jmp	_init.ary.10
+	JMP	_INIT.ARY.10
 
-_init.ary.50:
-	pop	ebx
-	or	bl,bl
-	je	_init.ary.55
+_INIT.ARY.50:
+	POP	EBX
+	OR	BL,BL
+	JE	_INIT.ARY.55
 
-	mov	ax,[word_work]
-	cmp	ax,'}'
-	je	_init.ary.51
-	mov	ax,','
-	call	skip_word
-_init.ary.51:
-	mov	ax,'}'
-	call	skip_word
-_init.ary.55:
+	MOV	AX,[WORD_WORK]
+	CMP	AX,'}'
+	JE	_INIT.ARY.51
+	MOV	AX,','
+	CALL	SKIP_WORD
+_INIT.ARY.51:
+	MOV	AX,'}'
+	CALL	SKIP_WORD
+_INIT.ARY.55:
 
-	mov	ebx,[esi+NODE3]
-	cmp	ebx,-1
-	je	_init.ary.set
-	mov	ebx,[ebx+NODE4]	;number
-	sub	ebx,ecx
-	jnb	_init.ary.80
+	MOV	EBX,[ESI+NODE3]
+	CMP	EBX,-1
+	JE	_INIT.ARY.SET
+	MOV	EBX,[EBX+NODE4]	;NUMBER
+	SUB	EBX,ECX
+	JNB	_INIT.ARY.80
 
-	pushad
-	call	disp_con
+	PUSHAD
+	CALL	DISP_CON
 	db	'array over$'
-	popad
-;	mov	ebx,0
+	POPAD
+;	MOV	EBX,0
 
-_init.ary.80:
+_INIT.ARY.80:
 		PUSH	ESI
-	push	ebx
+	PUSH	EBX
 		MOV	ESI,[ESI+NODE2]	;##
-	call	sizeof
-	mov	eax,edx
-	pop	ebx
-	mul	ebx
-	mov	ebx,eax
+	CALL	SIZEOF
+	MOV	EAX,EDX
+	POP	EBX
+	MUL	EBX
+	MOV	EBX,EAX
 		POP	ESI
 
-	call	print_ds
-	jmp	_init.r
+	CALL	PRINT_DS
+	JMP	_INIT.R
 
-_init.ary.set:
-	push	esi
-	mov	edx,ecx
-	call	make_word_no
-	pop	esi
-	mov	[esi+NODE3],ebx
-	mov	ebx,0
-	jmp	_init.ary.80
+_INIT.ARY.SET:
+	PUSH	ESI
+	MOV	EDX,ECX
+	CALL	MAKE_WORD_NO
+	POP	ESI
+	MOV	[ESI+NODE3],EBX
+	MOV	EBX,0
+	JMP	_INIT.ARY.80
 
 
-_init.dq2:
+_INIT.DQ2:
 		PUSH	ESI
 
 	PUSH	DWORD [STRING_PNT]
@@ -1688,12 +1688,12 @@ _init.dq2:
 		;NEG	EAX
 		;PUSH	EAX
 
-	push	esi
-	call	print
+	PUSH	ESI
+	CALL	PRINT
 	db	'	db	$'
-	mov	ebx,esi
-	call	print_str
-	pop	esi
+	MOV	EBX,ESI
+	CALL	PRINT_STR
+	POP	ESI
 	;call	strlen
 	CALL	STRLEN_PACK
 	INC	ECX		;to be cut? for char[4]="abcd" is right
@@ -1703,45 +1703,45 @@ _init.dq2:
 	;mov	esi,[name_pnt]
 	;mov	esi,[esi+NODE2]	;node '['
 
-	mov	ebx,[esi+NODE3]	;node '00'
-	cmp	ebx,-1
-	je	_init.dq2.20
-	mov	ebx,[ebx+NODE4]	;number
+	MOV	EBX,[ESI+NODE3]	;NODE '00'
+	CMP	EBX,-1
+	JE	_INIT.DQ2.20
+	MOV	EBX,[EBX+NODE4]	;NUMBER
 
-	sub	ebx,ecx
-	jae	_init.dq2.10
+	SUB	EBX,ECX
+	JAE	_INIT.DQ2.10
 
-	pushad
-	call	disp_con
+	PUSHAD
+	CALL	DISP_CON
 	db	'string over array size$'
-	popad
-	mov	ebx,0
+	POPAD
+	MOV	EBX,0
 
-_init.dq2.10:
-	call	print_ds
-	jmp	_init.r
+_INIT.DQ2.10:
+	CALL	PRINT_DS
+	JMP	_INIT.R
 
 
 ;	auto set size
 ;	ecx:len
 
-_init.dq2.20:
-	push	esi
-	mov	edx,ecx
-	call	make_word_no
-	pop	esi
+_INIT.DQ2.20:
+	PUSH	ESI
+	MOV	EDX,ECX
+	CALL	MAKE_WORD_NO
+	POP	ESI
 	mov	[esi+NODE3],ebx
 
-	mov	ebx,0		;just fit
-	jmp	_init.dq2.10
+	MOV	EBX,0		;just fit
+	JMP	_INIT.DQ2.10
 
 
 ;
 ;	ebx:size
 ;
 
-print_ds:
-	or	ebx,ebx
+PRINT_DS:
+	OR	EBX,EBX
 	JG	PRINT_DS.10
 	JE	PRINT_DS.20
 
@@ -1753,7 +1753,7 @@ print_ds:
 	JMP	PRINT_DS.E
 
 PRINT_DS.10:
-	call	print
+	CALL	PRINT
 	db	0dh,0ah
 	db	'	ds	%L',0dh,0ah,'$'
 	JMP	PRINT_DS.E
@@ -1764,23 +1764,23 @@ PRINT_DS.20:
 	DB	'	ds=0$'
 	POPAD
 
-print_ds.e:
-	ret
+PRINT_DS.E:
+	RET
 
 
 ;
 ;	>ecx:len(0~)
 ;
-strlen:
-	mov	ecx,0
-	cld
-strlen.10:
-	inc	ecx
-	lodsb
-	or	al,al
-	jne	strlen.10
+STRLEN:
+	MOV	ECX,0
+	CLD
+STRLEN.10:
+	INC	ECX
+	LODSB
+	OR	AL,AL
+	JNE	STRLEN.10
 
-	ret
+	RET
 
 ;
 ;
