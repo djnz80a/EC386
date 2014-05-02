@@ -427,7 +427,7 @@ MK:
 	JE	MK_DIV
 	CMP	AX,'%'
 	JE	MK_MOD
-	CMP	AX,'2&'
+	CMP	AX,'&2'
 	JE	MK_AND
 	CMP	AX,'|'
 	JE	MK_OR
