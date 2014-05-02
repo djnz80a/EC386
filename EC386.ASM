@@ -3046,7 +3046,7 @@ _TEXT_FILL:
 _TEXT_END:
 
 ;------------------------------------
-#INCLUDE <EC-IMP.ASM>
+%INCLUDE "EC-IMP.ASM"
 ;-----------------------
 
 _DATA:
