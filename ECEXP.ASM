@@ -528,7 +528,7 @@ CASTIF.R:
 	RET
 
 ;
-;	'*=','=/','%=','&=','|=','^=','<<=','>>='
+;	'*=','/=','%=','&=','|=','^=','<<=','>>='
 ;
 EXP_LETX:
 	CMP	ECX,100H
@@ -611,7 +611,7 @@ EXP_INCDEC.10:
 	RET
 
 ;
-;	'+=','=-'
+;	'+=','-='
 ;
 EXP_LETADD:
 	CALL	GET_WORD
@@ -2368,12 +2368,12 @@ EXP_NOT:
 	RET
 
 EXP_PREINC:
-	MOV	AX,'1+'
+	MOV	AX,'+1'
 	;MOV	EDX,EXP_TRM
 	;CALL	EXP_1TRM
 		CALL	GET_WORD
 		CALL	EXP_TRM
-		MOV	BX,'1+'
+		MOV	BX,'+1'
 		CALL	EXP_INCDEC
 	JMP	EXP_INC.1
 
