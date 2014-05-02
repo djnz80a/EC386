@@ -80,7 +80,7 @@ MACRO.10:
 	CALL	SET_WORD1_MACRO_PARAM
 	MOV	EDI,EBX
 
-	MOV	AX,'DF'
+	MOV	AX,'FD'
 	CALL	MAKE_WORD1_MACRO_PARAM
 	MOV	[EDI+NODE2],EBX
 	PUSH	EDI	;#
@@ -626,7 +626,7 @@ to_logical:
 	mov	ax,[word_work]
 	cmp	ax,'=='
 	je	#exp.eqm
-	cmp	ax,'=!'
+	cmp	ax,'!='
 	je	#exp.nteqm
 	ret
 
@@ -657,9 +657,9 @@ to_logical:
 	je	#exp.gt
 	cmp	byte [word_work+2],0
 	jne	#exp.cmp.r
-	cmp	ax,'=<'
+	cmp	ax,'<='
 	je	#exp.lteq
-	cmp	ax,'=>'
+	cmp	ax,'>='
 	je	#exp.gteq
 #exp.cmp.r:
 	ret
@@ -782,7 +782,7 @@ to_logical:
 	CMP	AX,'('
 	JE	#EXP.PAR
 
-	CMP	AX,'x0'
+	CMP	AX,'0x'
 	JE	#EXP.HEX
 
 	CMP	AL,'0'
@@ -1029,7 +1029,7 @@ GET_WORD_PREP.10:
 	JE	GET_WORD_PREP.40
 
 	CMP	AL,'!'
-	MOV	BX,'!='
+	MOV	BX,'=!'
 	JE	GET_WORD_PREP.15
 	CMP	AL,'='
 	MOV	BX,'=='
@@ -1384,15 +1384,15 @@ _UNDEF.R:
 ;
 ;
 INIT_DEFINE:
-	MOV	EAX,'li'+8080H
+	MOV	EAX,'il'+8080H
 	MOV	ESI,WORD__LINE__
 	CALL	INIT_DEFINE.SUB
 
-	MOV	EAX,'fi'+8080H
+	MOV	EAX,'if'+8080H
 	MOV	ESI,WORD__FILE__
 	CALL	INIT_DEFINE.SUB
 
-	MOV	EAX,'ti'+8080H
+	MOV	EAX,'it'+8080H
 	MOV	ESI,WORD__TIME__
 	CALL	INIT_DEFINE.SUB
 	RET
@@ -1401,7 +1401,7 @@ INIT_DEFINE.SUB:
 	MOV	BYTE [FLG.SET_STRING_MACRO],0FFH
 
 		PUSH	ESI
-	;MOV	EAX,'li'+8080H
+	;MOV	EAX,'il'+8080H
 	MOV	[WORD_WORK],EAX
 	MOV	EBX,WORD_WORK
 	CALL	SET_STRING_MACRO
@@ -1413,7 +1413,7 @@ INIT_DEFINE.SUB:
 	CALL	STRCPY
 	CALL	SET_WORD1_MACRO
 	PUSH	EBX
-	MOV	AX,'DF'
+	MOV	AX,'FD'
 	CALL	MAKE_WORD1_MACRO
 	POP	EAX
 	MOV	[EAX+NODE2],EBX
@@ -1432,7 +1432,7 @@ PRE_DEFINE:
 	MOV	BYTE [FLG.SET_STRING_MACRO],0FFH
 
 	PUSH	ESI
-	MOV	AX,'DF'
+	MOV	AX,'FD'
 	CALL	MAKE_WORD1_MACRO
 	POP	ESI
 
@@ -1503,7 +1503,7 @@ PRE_DEFINE.NUL:
 _DEFINE:
 	MOV	BYTE [FLG.SET_STRING_MACRO],0FFH
 
-	MOV	AX,'DF'
+	MOV	AX,'FD'
 	CALL	MAKE_WORD1_MACRO
 	PUSH	EBX
 	CALL	GET_WORD3

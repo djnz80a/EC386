@@ -203,7 +203,7 @@ IS_COND_WORD:
 	JE	IS_COND.Y
 	CMP	AX,'=='
 	JE	IS_COND.Y
-	CMP	AX,'=!'
+	CMP	AX,'!='
 	JE	IS_COND.Y
 	CMP	AX,'&&'
 	JE	IS_COND.Y
@@ -211,15 +211,15 @@ IS_COND_WORD:
 	JE	IS_COND.Y
 	CMP	AX,'>'
 	JE	IS_COND.Y
-	CMP	AX,'>='
-	JE	IS_COND.Y
 	CMP	AX,'=>'
+	JE	IS_COND.Y
+	CMP	AX,'>='
 	JE	IS_COND.Y
 	CMP	AX,'<'
 	JE	IS_COND.Y
-	CMP	AX,'<='
-	JE	IS_COND.Y
 	CMP	AX,'=<'
+	JE	IS_COND.Y
+	CMP	AX,'<='
 	JE	IS_COND.Y
 
 IS_COND.N:

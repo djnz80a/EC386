@@ -1712,7 +1712,7 @@ _TYPEDEF.10:
 	MOV	[ESI+NODE2],EBX
 
 	PUSH	ESI
-	MOV	AX,'ty'+8080H
+	MOV	AX,'yt'+8080H
 	CALL	MAKE_WORD1
 	MOV	EDI,EBX
 	POP	ESI
@@ -2167,7 +2167,7 @@ _IF.MAKE:
 	MOV	EDI,0
 	JE	_IF.10
 
-	CMP	AX,'=!'
+	CMP	AX,'!='
 ;	MOV	EDI,IF_EQ
 	MOV	EDI,1
 	JE	_IF.10
@@ -2182,18 +2182,18 @@ _IF.MAKE:
 	MOV	EDI,4
 	JE	_IF.10
 
-	CMP	AX,'=>'
+	CMP	AX,'>='
 ;	MOV	EDI,IF_LT
 	MOV	EDI,5
 	JE	_IF.10
-	CMP	AX,'>='
+	CMP	AX,'=>'
 	JE	_IF.10
 
-	CMP	AX,'<='
+	CMP	AX,'=<'
 ;	MOV	EDI,IF_GT
 	MOV	EDI,3
 	JE	_IF.10
-	CMP	AX,'=<'
+	CMP	AX,'<='
 	JE	_IF.10
 
 	PUSH	EAX
@@ -2849,8 +2849,8 @@ _FUNC.PROG:
 
 		push	DWORD [FUNC_PNT]
 		call	PRINT
-		;db	'	db	',"'",'%n',"'",',0',0DH,0AH,'$'
-		db	'	db	',"'",'%s',"'",',0',0DH,0AH,'$'
+		;db	'	db	',"'",'n%',"'",',0',0DH,0AH,'$'
+		db	'	db	',"'",'s%',"'",',0',0DH,0AH,'$'
 
 		CALL	PRINT_ALIGN4
 

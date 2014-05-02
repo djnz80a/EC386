@@ -149,7 +149,7 @@ MK_CONST:
 	MOV	EBX,[ESI+NODE1]
 	MOV	AX,[EBX]
 
-	CMP	AX,'()'
+	CMP	AX,')('
 	JE	MK_CONST.CAST
 
 	CMP	AX,'+'
@@ -360,9 +360,9 @@ MK0:
 	JE	MK_INC
 	CMP	AX,'--'
 	JE	MK_DEC
-	CMP	AX,'+1'
+	CMP	AX,'1+'
 	JE	MK_INC
-	CMP	AX,'-1'
+	CMP	AX,'1-'
 	JE	MK_DEC
 
 	MOV	BYTE [FLG.MK0],0
@@ -411,11 +411,11 @@ MK:
 	JE	MK_NOT
 	CMP	AX,'.'
 	JE	MK_DOT
-	CMP	AX,'()'
+	CMP	AX,')('
 	JE	MK_CAST
-	CMP	AX,'+1'
+	CMP	AX,'1+'
 	JE	MK_PREINC
-	CMP	AX,'-1'
+	CMP	AX,'1-'
 	JE	MK_PREDEC
 	CMP	AX,'&'
 	JE	MK_ADR
@@ -427,7 +427,7 @@ MK:
 	JE	MK_DIV
 	CMP	AX,'%'
 	JE	MK_MOD
-	CMP	AX,'&2'
+	CMP	AX,'2&'
 	JE	MK_AND
 	CMP	AX,'|'
 	JE	MK_OR
@@ -446,38 +446,38 @@ MK:
 	CMP	AX,'>>'
 	JE	MK_SHR
 
-	CMP	AX,'=+'
+	CMP	AX,'+='
 	MOV	EBX,PR_ADD_TBL
 	JE	MK_LET
-	CMP	AX,'=-'
+	CMP	AX,'-='
 	MOV	EBX,PR_SUB_TBL
 	JE	MK_LET
-	CMP	AX,'=*'
+	CMP	AX,'*='
 	MOV	EBX,PR_MUL_TBL
 	JE	MK_LET
-	CMP	AX,'=/'
+	CMP	AX,'/='
 	MOV	EBX,PR_DIV_TBL
 	JE	MK_LET
-	CMP	AX,'=%'
+	CMP	AX,'%='
 	MOV	EBX,PR_MOD_TBL
 	JE	MK_LET
-	CMP	AX,'=|'
+	CMP	AX,'|='
 	MOV	EBX,PR_OR_TBL
 	JE	MK_LET
-	CMP	AX,'=&'
+	CMP	AX,'&='
 	MOV	EBX,PR_AND_TBL
 	JE	MK_LET
-	CMP	AX,'=^'
+	CMP	AX,'^='
 	MOV	EBX,PR_XOR_TBL
 	JE	MK_LET
-	CMP	AX,'r='
+	CMP	AX,'=r'
 	MOV	EBX,PR_SHR_TBL
 	JE	MK_LET
-	CMP	AX,'l='
+	CMP	AX,'=l'
 	MOV	EBX,PR_SHL_TBL
 	JE	MK_LET
 
-	CMP	AX,'={'
+	CMP	AX,'{='
 	JE	MK_LET.STRUCT
 
 	CMP	AX,'='
