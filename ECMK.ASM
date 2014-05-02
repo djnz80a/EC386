@@ -360,7 +360,7 @@ MK0:
 	JE	MK_INC
 	CMP	AX,'--'
 	JE	MK_DEC
-	CMP	AX,'1+'
+	CMP	AX,'+1'
 	JE	MK_INC
 	CMP	AX,'-1'
 	JE	MK_DEC
@@ -413,7 +413,7 @@ MK:
 	JE	MK_DOT
 	CMP	AX,'()'
 	JE	MK_CAST
-	CMP	AX,'1+'
+	CMP	AX,'+1'
 	JE	MK_PREINC
 	CMP	AX,'-1'
 	JE	MK_PREDEC
