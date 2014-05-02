@@ -1302,7 +1302,7 @@ _INT.LOCAL.INIT.ARY.E:
 	jmp	_int.20
 
 _int.local.init.10:
-	mov	ax,'=i'
+	mov	ax,'i='
 	call	make_word1
 
 	mov	ecx,[func_init_exp]
