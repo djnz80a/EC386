@@ -2851,8 +2851,8 @@ _FUNC.PROG:
 
 		push	DWORD [FUNC_PNT]
 		call	PRINT
-		;db	'	db	',"'",'n%',"'",',0',0DH,0AH,'$'
-		db	'	db	',"'",'s%',"'",',0',0DH,0AH,'$'
+		;db	'	db	',"'",'%n',"'",',0',0DH,0AH,'$'
+		db	'	db	',"'",'%s',"'",',0',0DH,0AH,'$'
 
 		CALL	PRINT_ALIGN4
 
