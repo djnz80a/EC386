@@ -466,18 +466,18 @@ PREP:
 
 	MOV	EDI,WORD_IFDEF
 	CALL	STRCMP
-	JE	_#IFDEF
+	JE	_@IFDEF
 	MOV	EDI,WORD_IFNDEF
 	CALL	STRCMP
-	JE	_#IFNDEF
+	JE	_@IFNDEF
 
 	MOV	EDI,WORD_ELSE
 	CALL	STRCMP
-	JE	_#ELSE
+	JE	_@ELSE
 
 	MOV	EDI,WORD_IF
 	CALL	STRCMP
-	JE	_#IF
+	JE	_@IF
 
 	MOV	EDI,WORD_ENDIF
 	CALL	STRCMP
@@ -493,7 +493,7 @@ PREP:
 
 		MOV	EDI,WORD_LINE
 		CALL	STRCMP
-		JE	_#LINE
+		JE	_@LINE
 
 	JMP	ERR_PREP
 
@@ -503,190 +503,190 @@ PREP:
 
 
 
-#EXP:
-;	CALL	#EXP.AS
+@EXP:
+;	CALL	@EXP.AS
 ;	RET
 
-	call	#exp.or
+	call	@EXP.or
 	ret
 
-#exp.or:
-	call	#exp.and
-#exp.or2:
+@EXP.or:
+	call	@EXP.and
+@EXP.or2:
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	mov	ax,[word_work]
 	cmp	ax,'||'
-	je	#exp.orm
+	je	@EXP.orm
 	ret
-#exp.orm:
+@EXP.orm:
 	call	to_logical
 	push	ecx
 	call	get_word_prep
-	call	#exp.and
+	call	@EXP.and
 	call	to_logical
 	pop	eax
 	or	ecx,eax
 
-	jmp	#exp.or2
+	jmp	@EXP.or2
 	ret
 
 ;
 
-#exp.and:
-	;call	#exp.eq
-	CALL	#EXP.OR1
-#exp.add2:
+@EXP.and:
+	;call	@EXP.eq
+	CALL	@EXP.OR1
+@EXP.add2:
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	mov	ax,[word_work]
 	cmp	ax,'&&'
-	je	#exp.andm
+	je	@EXP.andm
 	ret
 
-#exp.andm:
+@EXP.andm:
 	call	to_logical
 	push	ecx
 	call	get_word_prep
-	;call	#exp.eq
-	CALL	#EXP.OR1
+	;call	@EXP.eq
+	CALL	@EXP.OR1
 	call	to_logical
 	pop	eax
 	and	ecx,eax
 
-	jmp	#exp.add2
+	jmp	@EXP.add2
 	ret
 
 ;
 to_logical:
 	or	ecx,ecx
-	jne	#exp.t
-	jmp	#exp.f
+	jne	@EXP.t
+	jmp	@EXP.f
 ;
-#EXP.OR1:
-	CALL	#EXP.XOR1
-#EXP.OR1.10:
+@EXP.OR1:
+	CALL	@EXP.XOR1
+@EXP.OR1.10:
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'|'
-	JE	#EXP.OR1M
+	JE	@EXP.OR1M
 	RET
-#EXP.OR1M:
+@EXP.OR1M:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.XOR1
+	CALL	@EXP.XOR1
 	POP	EAX
 	OR	ECX,EAX
-	JMP	#EXP.OR1.10
+	JMP	@EXP.OR1.10
 
 ;
-#EXP.XOR1:
-	CALL	#EXP.AND1
-#EXP.XOR1.10:
+@EXP.XOR1:
+	CALL	@EXP.AND1
+@EXP.XOR1.10:
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'^'
-	JE	#EXP.XOR1M
+	JE	@EXP.XOR1M
 	RET
-#EXP.XOR1M:
+@EXP.XOR1M:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.AND1
+	CALL	@EXP.AND1
 	POP	EAX
 	XOR	ECX,EAX
-	JMP	#EXP.XOR1.10
+	JMP	@EXP.XOR1.10
 
 ;
-#EXP.AND1:
-	CALL	#EXP.EQ
-#EXP.AND1.10:
+@EXP.AND1:
+	CALL	@EXP.EQ
+@EXP.AND1.10:
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'&'
-	JE	#EXP.AND1M
+	JE	@EXP.AND1M
 	RET
-#EXP.AND1M:
+@EXP.AND1M:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.EQ
+	CALL	@EXP.EQ
 	POP	EAX
 	AND	ECX,EAX
-	JMP	#EXP.AND1.10
+	JMP	@EXP.AND1.10
 ;
 
-#exp.eq:
-	call	#exp.cmp
-	mov	edx,#exp.cmp
+@EXP.eq:
+	call	@EXP.cmp
+	mov	edx,@EXP.cmp
 
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 	mov	ax,[word_work]
 	cmp	ax,'=='
-	je	#exp.eqm
+	je	@EXP.eqm
 	cmp	ax,'!='
-	je	#exp.nteqm
+	je	@EXP.nteqm
 	ret
 
-#exp.eqm:
-	call	#exp.2cmp
-	je	#exp.t
-	jmp	#exp.f
+@EXP.eqm:
+	call	@EXP.2cmp
+	je	@EXP.t
+	jmp	@EXP.f
 
-#exp.nteqm:
-	call	#exp.2cmp
-	jne	#exp.t
-	jmp	#exp.f
+@EXP.nteqm:
+	call	@EXP.2cmp
+	jne	@EXP.t
+	jmp	@EXP.f
 
 ;
 
-#exp.cmp:
-;	call	#exp.term
-	CALL	#EXP.SLR
-	mov	edx,#exp.SLR	;term
+@EXP.cmp:
+;	call	@EXP.term
+	CALL	@EXP.SLR
+	mov	edx,@EXP.SLR	;term
 
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 
 	mov	ax,[word_work]
 	cmp	ax,'<'
-	je	#exp.lt
+	je	@EXP.lt
 	cmp	ax,'>'
-	je	#exp.gt
+	je	@EXP.gt
 	cmp	byte [word_work+2],0
-	jne	#exp.cmp.r
+	jne	@EXP.cmp.r
 	cmp	ax,'<='
-	je	#exp.lteq
+	je	@EXP.lteq
 	cmp	ax,'>='
-	je	#exp.gteq
-#exp.cmp.r:
+	je	@EXP.gteq
+@EXP.cmp.r:
 	ret
 
-#exp.lt:
-	call	#exp.2cmp
-	jl	#exp.t
-	jmp	#exp.f
+@EXP.lt:
+	call	@EXP.2cmp
+	jl	@EXP.t
+	jmp	@EXP.f
 
-#exp.gt:
-	call	#exp.2cmp
-	jg	#exp.t
-	jmp	#exp.f
+@EXP.gt:
+	call	@EXP.2cmp
+	jg	@EXP.t
+	jmp	@EXP.f
 
-#exp.lteq:
-	call	#exp.2cmp
-	jle	#exp.t
-	jmp	#exp.f
+@EXP.lteq:
+	call	@EXP.2cmp
+	jle	@EXP.t
+	jmp	@EXP.f
 
-#exp.gteq:
-	call	#exp.2cmp
-	jge	#exp.t
-	jmp	#exp.f
+@EXP.gteq:
+	call	@EXP.2cmp
+	jge	@EXP.t
+	jmp	@EXP.f
 
 ;
 
-#exp.2cmp:
+@EXP.2cmp:
 	push	ecx
 
 	push	edx
@@ -699,73 +699,73 @@ to_logical:
 	cmp	eax,ecx
 	ret
 
-#exp.t:
+@EXP.t:
 	mov	ecx,1
 	ret
-#exp.f:
+@EXP.f:
 	mov	ecx,0
 	ret
 
 ;
-#EXP.SLR:
-	CALL	#EXP.AS
+@EXP.SLR:
+	CALL	@EXP.AS
 	CMP	BYTE [WORD_WORK+2],0
-	JNE	#EXP.SLR.R
+	JNE	@EXP.SLR.R
 
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'<<'
-	JE	#EXP.SHL
+	JE	@EXP.SHL
 	CMP	AX,'>>'
-	JE	#EXP.SHR
-#EXP.SLR.R:
+	JE	@EXP.SHR
+@EXP.SLR.R:
 	RET
 
-#EXP.SHL:
+@EXP.SHL:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.AS
+	CALL	@EXP.AS
 	POP	EAX
 	SHL	EAX,CL
 	MOV	ECX,EAX
 	RET
 
-#EXP.SHR:
+@EXP.SHR:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.AS
+	CALL	@EXP.AS
 	POP	EAX
 	SAR	EAX,CL
 	MOV	ECX,EAX
 	RET
 
 ;
-#EXP.AS:
-	CALL	#EXP.TERM
+@EXP.AS:
+	CALL	@EXP.TERM
 		CMP	BYTE [PREP_EOL],0
 		JNE	_RET
 
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'+'
-	JE	#EXP.ADD
+	JE	@EXP.ADD
 	CMP	AX,'-'
-	JE	#EXP.SUB
+	JE	@EXP.SUB
 	RET
 
-#EXP.ADD:
+@EXP.ADD:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.TERM
+	CALL	@EXP.TERM
 	POP	EAX
 	ADD	ECX,EAX
 	RET
 
-#EXP.SUB:
+@EXP.SUB:
 	PUSH	ECX
 	CALL	GET_WORD_PREP
-	CALL	#EXP.TERM
+	CALL	@EXP.TERM
 	MOV	EAX,ECX
 	POP	ECX
 	SUB	ECX,EAX
@@ -773,39 +773,39 @@ to_logical:
 
 ;
 
-#EXP.TERM:
+@EXP.TERM:
 	MOV	AX,[WORD_WORK]
 
 	CMP	AX,"'"
-	JE	#EXP.SQ
+	JE	@EXP.SQ
 
 	CMP	AX,'('
-	JE	#EXP.PAR
+	JE	@EXP.PAR
 
 	CMP	AX,'0x'
-	JE	#EXP.HEX
+	JE	@EXP.HEX
 
 	CMP	AL,'0'
-	JE	#EXP.OCT
+	JE	@EXP.OCT
 
 	cmp	AX,'!'
-	je	#exp.not
+	je	@EXP.not
 
 	CMP	AX,'+'
-	JE	#EXP.PLUS
+	JE	@EXP.PLUS
 	CMP	AX,'-'
-	JE	#EXP.MINUS
+	JE	@EXP.MINUS
 
 	CMP	AX,'~'
-	JE	#EXP.REV
+	JE	@EXP.REV
 
 	CALL	IS_NUMBER
-	je	#exp.number
+	je	@EXP.number
 
 	mov	esi,word_work
 	mov	edi,word_defined
 	call	strcmp
-	je	#exp.defined
+	je	@EXP.defined
 
 	mov	al,[word_work]
 	call	is_cchr_f
@@ -815,8 +815,8 @@ to_logical:
 	pushfd
 	call	get_word_prep
 	popfd
-	jb	#exp.f
-	jmp	#exp.t
+	jb	@EXP.f
+	jmp	@EXP.t
 
 	call	disp_con
 	db	'term$'
@@ -825,27 +825,27 @@ to_logical:
 
 
 
-#EXP.PLUS:
+@EXP.PLUS:
 	CALL	GET_WORD_PREP
-	CALL	#EXP
+	CALL	@EXP
 	RET
 
-#EXP.MINUS:
+@EXP.MINUS:
 	CALL	GET_WORD_PREP
-	CALL	#EXP
+	CALL	@EXP
 	NEG	ECX
 	RET
 
-#EXP.SQ:
+@EXP.SQ:
 	MOVZX	ECX,[CHR_WORK]
 	CMP	CL,'\'
-	JE	#EXP.SQ.ESC
+	JE	@EXP.SQ.ESC
 	CALL	GET_NCHR
 	CALL	GET_NCHR
 	CALL	GET_WORD_PREP
 	RET
 
-#EXP.SQ.ESC:
+@EXP.SQ.ESC:
 	CALL	GET_NCHR
 	MOVZX	ECX,[CHR_WORK]
 	CMP	CL,'\'
@@ -855,51 +855,51 @@ to_logical:
 	CALL	GET_WORD_PREP
 	RET
 
-#EXP.REV:
+@EXP.REV:
 	CALL	GET_WORD_PREP
-	CALL	#EXP
+	CALL	@EXP
 	NOT	ECX
 	RET
 
-#EXP.PAR:
+@EXP.PAR:
 	CALL	GET_WORD_PREP
-	CALL	#EXP
+	CALL	@EXP
 	MOV	AX,[WORD_WORK]
 	CMP	AX,')'
 	JNE	ERR_SYNTAX
 	CALL	GET_WORD_PREP
 	RET
 
-#exp.not:
+@EXP.not:
 	call	get_word_prep
-	call	#exp.TERM
+	call	@EXP.TERM
 	or	ecx,ecx
 	mov	ecx,1
-	je	#exp.not.r
+	je	@EXP.not.r
 	mov	ecx,0
-#exp.not.r:
+@EXP.not.r:
 	ret
 
-#EXP.OCT:
+@EXP.OCT:
 	PUSH	EDX
 	MOV	ESI,WORD_WORK
 	CALL	GETOCT
 	POP	EDX
-	JMP	#EXP.NUMBER.10
+	JMP	@EXP.NUMBER.10
 
-#EXP.HEX:
+@EXP.HEX:
 	PUSH	EDX
 	MOV	ESI,WORD_WORK+2
 	CALL	GETHEX
 	POP	EDX
-	JMP	#EXP.NUMBER.10
+	JMP	@EXP.NUMBER.10
 
-#exp.number:
+@EXP.number:
 	PUSH	EDX
 	MOV	ESI,WORD_WORK
 	CALL	GETDEC
 	POP	EDX
-#EXP.NUMBER.10:
+@EXP.NUMBER.10:
 	MOV	ECX,EAX
 	PUSHAD
 ;	CALL	GET_WORD4
@@ -907,7 +907,7 @@ to_logical:
 	POPAD
 	RET
 
-#exp.defined:
+@EXP.defined:
 	call	disp_con
 	db	'<defined$'
 
@@ -915,45 +915,45 @@ to_logical:
 
 	mov	ax,[word_work]
 	cmp	ax,'('
-	jne	#exp.defined.05
+	jne	@EXP.defined.05
 
 	call	get_word3
 
 	mov	bl,1
 	push	ebx
-	jmp	#exp.defined.08
+	jmp	@EXP.defined.08
 
-#exp.defined.05:
+@EXP.defined.05:
 
 	mov	bl,0
 	push	ebx
 
-#exp.defined.08:
+@EXP.defined.08:
 	call	search_word_macro
 	mov	ecx,0
-	jb	#exp.defined.10
+	jb	@EXP.defined.10
 	mov	ecx,1
-#exp.defined.10:
+@EXP.defined.10:
 	pop	ebx
 
 		mov	al,cl
 		add	al,'0'
-		mov	[#exp.defined.v1],al
+		mov	[@EXP.defined.v1],al
 
 	push	ecx
 
 	or	bl,bl
-	je	#exp.defined.20
+	je	@EXP.defined.20
 
 	call	get_word_prep
 	mov	ax,[word_work]
 	cmp	ax,')'
 	jne	err_syntax
 
-#exp.defined.20:
+@EXP.defined.20:
 	call	get_word_prep
 	call	disp_con
-#exp.defined.v1:
+@EXP.defined.v1:
 	db	' defined>$'
 
 	pop	ecx
@@ -1094,7 +1094,7 @@ SKIP_TILL_ENDIF.10:
 	CALL	GET_WORD3
 	MOV	AL,[WORD_WORK]
 	CMP	AL,1AH
-	JE	_#IF.EOF
+	JE	_@IF.EOF
 	CMP	AL,'#'
 	JNE	SKIP_TILL_ENDIF.10
 
@@ -1143,7 +1143,7 @@ SKIP_TILL_ENDIF.ENDIF:
 
 	CALL	GET_WORD_PREP
 		MOV	BYTE [PREP_EOL],0
-	CALL	#EXP
+	CALL	@EXP
 	PUSH	ECX
 	MOV	AL,[CHR_WORK]
 	CALL	UNGETC
@@ -1152,10 +1152,10 @@ SKIP_TILL_ENDIF.ENDIF:
 	CALL	GET_NCHR
 	POP	ECX
 	OR	ECX,ECX
-	JNE	_#IF.Y
+	JNE	_@IF.Y
 	JMP	SKIP_TILL_ENDIF.20
 
-	JMP	_#IF.N
+	JMP	_@IF.N
 
 SKIP_TILL_ENDIF.ELIF:
 
@@ -1163,47 +1163,47 @@ SKIP_TILL_ENDIF.IF:
 SKIP_TILL_ENDIF.IFDEF:
 SKIP_TILL_ENDIF.IFNDEF:
 	INC	BYTE [IF.LEVEL]
-	JMP	_#IF.N.20
+	JMP	_@IF.N.20
 
 ;
 
-_#ELSE:
+_@ELSE:
 		JMP	SKIP_TILL_ENDIF
 		;JMP	GET_WORD4
-	JMP	_#IF.N
+	JMP	_@IF.N
 
 _#ENDIF:
 	JMP	GET_WORD4
 
-_#IFNDEF:
+_@IFNDEF:
 	CALL	GET_WORD3
 	MOV	BYTE [FLG.SET_STRING_MACRO],0FFH
 	CALL	SEARCH_WORD_MACRO
 	MOV	BYTE [FLG.SET_STRING_MACRO],0
-	JNB	_#IF.N
-	JMP	_#IF.Y
+	JNB	_@IF.N
+	JMP	_@IF.Y
 
-_#IFDEF:
+_@IFDEF:
 	CALL	GET_WORD3
 	MOV	BYTE [FLG.SET_STRING_MACRO],0FFH
 	CALL	SEARCH_WORD_MACRO
 	MOV	BYTE [FLG.SET_STRING_MACRO],0
-	JB	_#IF.N
-	JMP	_#IF.Y
+	JB	_@IF.N
+	JMP	_@IF.Y
 
 ;
 _#ELIF:
 		JMP	SKIP_TILL_ENDIF
 		;JMP	GET_WORD4
-	JMP	_#IF.N
+	JMP	_@IF.N
 
 
-_#IF:
+_@IF:
 ;	CALL	GET_WORD4	;skip 'if'
 	call	get_word_prep
 
 		MOV	BYTE [PREP_EOL],0
-	CALL	#EXP
+	CALL	@EXP
 	push	ecx
 
 	MOV	AL,[CHR_WORK]
@@ -1212,32 +1212,32 @@ _#IF:
 
 	CALL	GET_NCHR
 
-;	CALL	#SKIP_WHITE
+;	CALL	@SKIP_WHITE
 ;	MOV	AL,[CHR_WORK]
 ;	CMP	AL,0AH
 ;	JNE	ERR.UNTERM
 	pop	ecx
 	OR	ECX,ECX
-	JNE	_#IF.Y
-	JMP	_#IF.N
+	JNE	_@IF.Y
+	JMP	_@IF.N
 
 
 ;
-#SKIP_WHITE:
+@SKIP_WHITE:
 	MOV	AL,[CHR_WORK]
 	CMP	AL,0AH
-	JE	#SKIP_WHITE.R
+	JE	@SKIP_WHITE.R
 
 ;	CALL	GET_WORD_PREP
 	CALL	GET_NCHR_PRE
 	CMP	AL,20H
-	JE	#SKIP_WHITE
+	JE	@SKIP_WHITE
 	CMP	AL,09H
-	JE	#SKIP_WHITE
+	JE	@SKIP_WHITE
 	CMP	AL,0DH
-	JE	#SKIP_WHITE
+	JE	@SKIP_WHITE
 
-#SKIP_WHITE.R:
+@SKIP_WHITE.R:
 	RET
 
 ;
@@ -1247,7 +1247,7 @@ err.unterm:
 	db	'unterminated prep$'
 	jmp	err_syntax
 
-_#IF.Y:
+_@IF.Y:
 	JMP	GET_WORD4
 	JMP	GET_WORD4.0
 
@@ -1258,62 +1258,62 @@ _#IF.Y:
 ;
 ;	#endif
 ;
-_#IF.N:
+_@IF.N:
 	MOV	BYTE [IF.LEVEL],0
 
-_#IF.N.10:
+_@IF.N.10:
 	CALL	GET_WORD3
 	MOV	AL,[WORD_WORK]
 	CMP	AL,1AH
-	JE	_#IF.EOF
+	JE	_@IF.EOF
 	CMP	AL,'#'
-	JNE	_#IF.N.10
+	JNE	_@IF.N.10
 
 	call	get_word3
 
 	MOV	ESI,WORD_WORK;+1
 	MOV	EDI,WORD_IF
 	CALL	STRCMP
-	JE	_#IF.N.IF
+	JE	_@IF.N.IF
 	MOV	EDI,WORD_IFDEF
 	CALL	STRCMP
-	JE	_#IF.N.IFDEF
+	JE	_@IF.N.IFDEF
 	MOV	EDI,WORD_IFNDEF
 	CALL	STRCMP
-	JE	_#IF.N.IFNDEF
+	JE	_@IF.N.IFNDEF
 	MOV	EDI,WORD_ENDIF
 	CALL	STRCMP
-	JE	_#IF.N.ENDIF
+	JE	_@IF.N.ENDIF
 
 		MOV	EDI,WORD_ELIF
 		CALL	STRCMP
-		JE	_#IF.N.ELIF
+		JE	_@IF.N.ELIF
 
 	MOV	EDI,WORD_ELSE
 	CALL	STRCMP
-	JE	_#IF.N.ELSE
-_#IF.N.20:
+	JE	_@IF.N.ELSE
+_@IF.N.20:
 ;	CALL	SKIP_LINE
-	JMP	_#IF.N.10
+	JMP	_@IF.N.10
 
-_#IF.N.ELSE:
+_@IF.N.ELSE:
 	CMP	BYTE [IF.LEVEL],0
-	JNE	_#IF.N.20
+	JNE	_@IF.N.20
 	JMP	GET_WORD4
 
-_#IF.N.ENDIF:
+_@IF.N.ENDIF:
 	CMP	BYTE [IF.LEVEL],0
 	JE	GET_WORD4
 	DEC	BYTE [IF.LEVEL]
-	JMP	_#IF.N.20
+	JMP	_@IF.N.20
 
-_#IF.N.ELIF:
+_@IF.N.ELIF:
 	CMP	BYTE [IF.LEVEL],0
-	JNE	_#IF.N.20
+	JNE	_@IF.N.20
 
 	CALL	GET_WORD_PREP
 		MOV	BYTE [PREP_EOL],0
-	CALL	#EXP
+	CALL	@EXP
 	PUSH	ECX
 	MOV	AL,[CHR_WORK]
 	CALL	UNGETC
@@ -1322,19 +1322,19 @@ _#IF.N.ELIF:
 	CALL	GET_NCHR
 	POP	ECX
 	OR	ECX,ECX
-	JNE	_#IF.Y
-	JMP	_#IF.N.20
+	JNE	_@IF.Y
+	JMP	_@IF.N.20
 
-	JMP	_#IF.N
+	JMP	_@IF.N
 
 
-_#IF.N.IF:
-_#IF.N.IFDEF:
-_#IF.N.IFNDEF:
+_@IF.N.IF:
+_@IF.N.IFDEF:
+_@IF.N.IFNDEF:
 	INC	BYTE [IF.LEVEL]
-	JMP	_#IF.N.20
+	JMP	_@IF.N.20
 
-_#IF.EOF:
+_@IF.EOF:
 	CALL	DISP_CON
 	DB	'eof in #if(n)(def)$'
 	JMP	ERR_SYNTAX
@@ -1691,7 +1691,7 @@ get_nchr_pre.r:
 ;
 ;
 ;
-_#LINE:
+_@LINE:
 	CALL	GET_WORD
 
 	;MOV	ESI,WORD_WORK
@@ -1701,16 +1701,16 @@ _#LINE:
 	CALL	GET_WORD
 	MOV	AX,[WORD_WORK]
 	CMP	AX,'"'
-	JE	_#LINE2
+	JE	_@LINE2
 	JMP	GET_WORD4.0
 
-_#LINE2:
+_@LINE2:
 	CALL	GET_WORD
 	MOV	AX,[WORD_WORK]
 	CMP	AL,1AH
 	JE	ERR_SYNTAX
 	CMP	AX,'"'
-	JNE	_#LINE2
+	JNE	_@LINE2
 
 	JMP	GET_WORD4
 
