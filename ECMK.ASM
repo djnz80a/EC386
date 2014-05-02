@@ -149,7 +149,7 @@ MK_CONST:
 	MOV	EBX,[ESI+NODE1]
 	MOV	AX,[EBX]
 
-	CMP	AX,')('
+	CMP	AX,'()'
 	JE	MK_CONST.CAST
 
 	CMP	AX,'+'
@@ -411,7 +411,7 @@ MK:
 	JE	MK_NOT
 	CMP	AX,'.'
 	JE	MK_DOT
-	CMP	AX,')('
+	CMP	AX,'()'
 	JE	MK_CAST
 	CMP	AX,'1+'
 	JE	MK_PREINC
