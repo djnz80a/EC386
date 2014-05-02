@@ -477,7 +477,7 @@ MK:
 	MOV	EBX,PR_SHL_TBL
 	JE	MK_LET
 
-	CMP	AX,'{='
+	CMP	AX,'={'
 	JE	MK_LET.STRUCT
 
 	CMP	AX,'='
@@ -1924,7 +1924,7 @@ MK_LET.OPTN:
 	;CMP	ECX,100H
 	;JNB	MK_LET.NOPT	;except ptr_name=?
 
-;	NOTE maybe struct_name=	<- not happen since '{=' in that case
+;	NOTE maybe struct_name=	<- not happen since '={' in that case
 
 	PUSH	ECX
 	CALL	MK_REF_R
