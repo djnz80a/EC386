@@ -69,7 +69,7 @@ typedef struct {
 
 extern FILE *stdin,*stdout,*stderr;
 
-char* alloca();
+/* char* alloca(); */
 int execv();
 
 int getuid();
@@ -136,8 +136,12 @@ int vsprintf();
 int perror();
 
 int setbuf();
+
+#if 0
 int setvbu();/**/
+#endif
 int setvbuf();
+
 #define _IONBF 0
 
 /* */

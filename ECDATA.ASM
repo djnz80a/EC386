@@ -550,7 +550,7 @@ CLINE:	TIMES	100H	DB 00h
 
 fsub.sgn:	DW	0
 
-set_f.work:	TIMES	100	DB 00h
+;set_f.work:	TIMES	100	DB 00h
 
 
 ;-------------- FLOAT30.CLB end --------------

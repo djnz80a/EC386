@@ -7,23 +7,12 @@ ERR_READ EQU	3
 
 BUFSIZ	EQU	400H
 
-	EXTERN	_malloc
 	EXTERN	FILE_WORK
 	EXTERN	SIZEOF_FILE
-	EXTERN	set_f.work
+;	EXTERN	set_f.work
 
 	EXTERN	__WRITE
 	EXTERN	__PUTCHR
-
-	EXTERN	_STDIN
-	EXTERN	_STDOUT
-	EXTERN	_STDERR
-
-	EXTERN	_STRLEN
-	EXTERN	_STRCPY
-	EXTERN	_STRERROR
-
-	EXTERN	_ERRNO
 
 	EXTERN	GETDEC
 	EXTERN	GETDEC2
@@ -31,108 +20,120 @@ BUFSIZ	EQU	400H
 
 	EXTERN	USRDTA
 
-	GLOBAL	_SSCANF
-	GLOBAL	_FSCANF
-	GLOBAL	_ISATTY
-	GLOBAL	_UNGETC
-	GLOBAL	_CLEARERR
-	GLOBAL	_TEMPNAM
-	GLOBAL	_MKTEMP
-	GLOBAL	_FERROR
-	GLOBAL	_SETBUF
-	GLOBAL	_SETVBUF
-	GLOBAL	_FSETBUF
-	GLOBAL	_FFLUSH
-	GLOBAL	_FWRITE
-	GLOBAL	_FREAD
-	GLOBAL	_UNLINK
-	GLOBAL	_LINK
-	GLOBAL	_FEOF
-	GLOBAL	_FREOPEN
-	GLOBAL	_FDOPEN
-	GLOBAL	_FOPEN
-	GLOBAL	_FILENO
-	GLOBAL	_FCLOSE
-	GLOBAL	_REWIND
-	GLOBAL	_FSEEK
-	GLOBAL	_FTELL
-	GLOBAL	_IN_B
-	GLOBAL	_OUT_B
-	GLOBAL	_DOS06
-	GLOBAL	_DOS07
-	GLOBAL	_DOS08
-	GLOBAL	_DOS01
-	GLOBAL	_DOS0B
-	GLOBAL	_PUTHEX_L
-	GLOBAL	_PUTHEX_W
-	GLOBAL	_PUTHEX_B
-	GLOBAL	_PUTC
-	GLOBAL	_FPUTC
-	GLOBAL	_FGETS
-	GLOBAL	_GETC
-	GLOBAL	_FGETC
-	GLOBAL	_PERROR
-	GLOBAL	_FPUTS
-	GLOBAL	_puts
-	GLOBAL	_SPRINTF
-	GLOBAL	_SNPRINTF
-	GLOBAL	_VSPRINTF
-	GLOBAL	_FPRINTF
-	GLOBAL	_VFPRINTF
-	GLOBAL	_printf
-	GLOBAL	_VPRINTF
-	GLOBAL	_RENAME
-	GLOBAL	_OPEN
-	GLOBAL	_CLOSE
-	GLOBAL	_CREAT
-	GLOBAL	_LSEEK
-	GLOBAL	_WRITE
-	GLOBAL	_READ
-	GLOBAL	_GETCH
-	GLOBAL	_GETCHAR
-	GLOBAL	_PUTCHAR
-	GLOBAL	_DUP
-	GLOBAL	_DUP2
+	extern	_stdin
+	extern	_stdout
+	extern	_stderr
 
-	GLOBAL	_STANDOUT
-	GLOBAL	_STANDEND
+	EXTERN	_malloc
 
-	GLOBAL	_ACCESS
-	GLOBAL	_GETLOGIN
-	GLOBAL	_GETPWUID
-	GLOBAL	_GETEUID
-	GLOBAL	_GETUID
-	GLOBAL	_GETPID
-	GLOBAL	_GETPPID
-	GLOBAL	_GETGID
-	GLOBAL	_GETEGID
-	GLOBAL	_SETGID
-	GLOBAL	_WAIT
-	GLOBAL	_EXECL
-	GLOBAL	_EXECVP
-	GLOBAL	_EXECV
-	GLOBAL	_FORK
-	GLOBAL	_SYSTEM
-	GLOBAL	_SLEEP
-	GLOBAL	_USLEEP
-	GLOBAL	_KILL
-	GLOBAL	_CHMOD
-;	GLOBAL	_REMOVE
-	GLOBAL	_CHOWN
-	GLOBAL	_CHDIR
-	GLOBAL	_POPEN
-	GLOBAL	_PCLOSE
-	GLOBAL	_UMASK
-	GLOBAL	_MKDIR
-	GLOBAL	_GETWD
-	GLOBAL	_GETCWD
-	GLOBAL	_READLINK
-	GLOBAL	_GETGRGID
+	extern	_strlen
+	extern	_strcpy
+	extern	_strerror
 
-	GLOBAL	_PIPE
-;	GLOBAL	_DUP
+	extern	_errno
 
-	GLOBAL	_ALARM
+	global	_sscanf
+	global	_fscanf
+	global	_isatty
+	global	_ungetc
+	global	_clearerr
+	global	_tempnam
+	global	_mktemp
+	global	_ferror
+	global	_setbuf
+	global	_setvbuf
+	global	_fsetbuf
+	global	_fflush
+	global	_fwrite
+	global	_fread
+	global	_unlink
+	global	_link
+	global	_feof
+	global	_freopen
+	global	_fdopen
+	global	_fopen
+	global	_fileno
+	global	_fclose
+	global	_rewind
+	global	_fseek
+	global	_ftell
+	global	_in_b
+	global	_out_b
+	global	_dos06
+	global	_dos07
+	global	_dos08
+	global	_dos01
+	global	_dos0b
+	global	_puthex_l
+	global	_puthex_w
+	global	_puthex_b
+	global	_putc
+	global	_fputc
+	global	_fgets
+	global	_getc
+	global	_fgetc
+	global	_perror
+	global	_fputs
+	global	_puts
+	global	_sprintf
+	global	_snprintf
+	global	_vsprintf
+	global	_fprintf
+	global	_vfprintf
+	global	_printf
+	global	_vprintf
+	global	_rename
+	global	_open
+	global	_close
+	global	_creat
+	global	_lseek
+	global	_write
+	global	_read
+	global	_getch
+	global	_getchar
+	global	_putchar
+	global	_dup
+	global	_dup2
+
+	global	_standout
+	global	_standend
+
+	global	_access
+	global	_getlogin
+	global	_getpwuid
+	global	_geteuid
+	global	_getuid
+	global	_getpid
+	global	_getppid
+	global	_getgid
+	global	_getegid
+	global	_setgid
+	global	_wait
+	global	_execl
+	global	_execvp
+	global	_execv
+	global	_fork
+	global	_system
+	global	_sleep
+	global	_usleep
+	global	_kill
+	global	_chmod
+	global	_remove
+	global	_chown
+	global	_chdir
+	global	_popen
+	global	_pclose
+	global	_umask
+	global	_mkdir
+	global	_getwd
+	global	_getcwd
+	global	_readlink
+	global	_getgrgid
+
+	global	_pipe
+;	global	_dup
+
+	global	_alarm
 
 	GLOBAL	CRMODE
 	GLOBAL	CRMOD
@@ -182,7 +183,7 @@ p4	EQU	P4
 W1	EQU	-4
 
 ;
-_DUP:
+_dup:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	AH,45H		;duplicate a file handle
@@ -199,7 +200,7 @@ _DUP.R:
 	RET
 
 ;
-_DUP2:
+_dup2:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	AH,46H		;force a duplicate handle
@@ -216,12 +217,12 @@ _DUP2.R:
 	RET
 
 ;
-_FSCANF:
+_fscanf:
 	MOV	EBX,-1
 	RET
 
 ;
-_SSCANF:
+_sscanf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -321,7 +322,7 @@ _SSCANF.R:
 	RET
 
 ;
-_ISATTY:
+_isatty:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -338,7 +339,7 @@ _ISATTY.R:
 	RET
 
 ;	temp
-_UNGETC:
+_ungetc:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -367,7 +368,7 @@ _UNGETC.R:
 	RET
 
 ;
-_CLEARERR:
+_clearerr:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	EDI,[EBP+P1]
@@ -382,7 +383,7 @@ _CLEARERR:
 ;
 ;
 ;
-_TEMPNAM:
+_tempnam:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -400,11 +401,11 @@ _TEMPNAM.10:
 
 	PUSH	DWORD _TEMPNAM.STR1
 	PUSH	EBX
-	CALL	_STRCPY
+	CALL	_strcpy
 	ADD	ESP,4*2
 
 	PUSH	DWORD [EBP+P1]
-	CALL	_MKTEMP
+	CALL	_mktemp
 	ADD	ESP,4
 	OR	EBX,EBX
 	JE	_TEMPNAM.ERR
@@ -425,7 +426,7 @@ _TEMPNAM.STR1:
 ;
 ;
 
-_MKTEMP:
+_mktemp:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -433,7 +434,7 @@ _MKTEMP:
 	;	JMP	_MKTEMP.R
 
 	PUSH	DWORD [EBP+P1]
-	CALL	_STRLEN
+	CALL	_strlen
 	ADD	ESP,4
 	CMP	EBX,80H
 	JNB	_MKTEMP.ERR
@@ -471,13 +472,13 @@ _MKTEMP.50:
 
 	PUSH	0
 	PUSH	_MKTEMP.WORK
-	CALL	_OPEN
+	CALL	_open
 	ADD	ESP,4*2
 	OR	EBX,EBX
 	JS	_MKTEMP.OK
 
 	PUSH	EBX
-	CALL	_CLOSE
+	CALL	_close
 	ADD	ESP,4
 
 	INC	DWORD [_MKTEMP.N]
@@ -486,7 +487,7 @@ _MKTEMP.50:
 _MKTEMP.OK:
 	PUSH	_MKTEMP.WORK
 	PUSH	DWORD [EBP+P1]
-	CALL	_STRCPY
+	CALL	_strcpy
 	ADD	ESP,4*2
 
 	MOV	EBX,[EBP+P1]
@@ -508,7 +509,7 @@ _MKTEMP.WORK:
 ;
 ;
 ;
-_FERROR:
+_ferror:
 	MOV	EBX,0
 	RET
 
@@ -516,16 +517,16 @@ _FERROR:
 ;_SETBUF:
 ;original
 ;	(FILE *fp,unsigned bufsize)
-_FSETBUF:
+_fsetbuf:
 	RET
 
 ;
-_SETVBUF:
+_setvbuf:
 	RET
 
 ;
 ;
-_SETBUF:
+_setbuf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -563,7 +564,7 @@ _FSETBUF.R:
 ;
 ;
 
-_FFLUSH:
+_fflush:
 	;RET
 
 	PUSH	EBP
@@ -602,7 +603,7 @@ _FFLUSH.10:
 ;
 ;
 
-_FWRITE:
+_fwrite:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -640,7 +641,7 @@ _FWRITE.T.10:
 	PUSH	DWORD [EBP+P4]
 	MOVZX	EAX,BYTE [EDX]
 	PUSH	EAX
-	CALL	_PUTC
+	CALL	_putc
 	ADD	ESP,4*2
 
 	POP	ESI
@@ -665,7 +666,7 @@ _FWRITE#0:
 
 ;
 
-_FREAD:
+_fread:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -709,7 +710,7 @@ _FREAD.15:
 
 	CMP	EAX,[EBP+P3]
 	JE	_FREAD#0
-	MOV	BYTE [_ERRNO],ERR_READ
+	MOV	BYTE [_errno],ERR_READ
 
 _FREAD#0:
 	POP	ECX
@@ -724,7 +725,7 @@ _FREAD#BUF.10:
 	PUSH	EDX
 
 	PUSH	DWORD [EBP+P4]
-	CALL	_FGETC
+	CALL	_fgetc
 	ADD	ESP,4
 
 	POP	EDX
@@ -746,13 +747,13 @@ _FREAD.R:
 	POP	EBP
 	RET
 
-_LINK:
+_link:
 	MOV	EBX,-1
 	RET
 
 ;
 
-_UNLINK:
+_unlink:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -766,7 +767,7 @@ _UNLINK:
 	RET
 
 ;
-_FEOF:
+_feof:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -781,12 +782,12 @@ _FEOF.R:
 	RET
 
 ;
-_FREOPEN:
+_freopen:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 	PUSH	DWORD [EBP+P3]
-	CALL	_FCLOSE
+	CALL	_fclose
 	ADD	ESP,4
 
 	PUSH	DWORD [EBP+P2]
@@ -799,7 +800,7 @@ _FREOPEN:
 	RET
 
 ;
-_FDOPEN:
+_fdopen:
 	PUSH	EBP
 	MOV	EBP,ESP
 	SUB	ESP,4*1
@@ -823,7 +824,7 @@ _FOPEN_F:
 
 ;
 
-_FOPEN:
+_fopen:
 	PUSH	EBP
 	MOV	EBP,ESP
 	SUB	ESP,4*1
@@ -993,7 +994,7 @@ _FOPEN.70:
 		PUSH	2	;SEEK_END
 		PUSH	0
 		PUSH	EDI
-		CALL	_FSEEK
+		CALL	_fseek
 		ADD	ESP,4*3
 
 		POP	EDI
@@ -1003,7 +1004,7 @@ _FOPEN.75:
 	JMP	_FOPEN.R
 
 _FOPEN.ERR:
-	MOV	BYTE [_ERRNO],ERR_OPEN
+	MOV	BYTE [_errno],ERR_OPEN
 	MOV	EBX,0
 	JMP	_FOPEN.R
 
@@ -1022,7 +1023,7 @@ _FOPEN.CV_NAME:
 ;
 ;
 ;
-_FILENO:
+_fileno:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -1052,13 +1053,13 @@ ALLOC_FILE.20:
 	RET
 
 ;
-_FCLOSE:
+_fclose:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 	MOV	EDI,[EBP+P1]
 	PUSH	EDI
-	CALL	_FFLUSH
+	CALL	_fflush
 	ADD	ESP,4
 
 	MOV	EBX,[EBP+P1]
@@ -1080,7 +1081,7 @@ _FCLOSE.R:
 
 ;
 
-_REWIND:
+_rewind:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1094,14 +1095,14 @@ _REWIND:
 	PUSH	DWORD 0
 	MOV	EDI,[EBP+P1]
 	PUSH	EDI
-	CALL	_FSEEK
+	CALL	_fseek
 	ADD	ESP,4*3
 
 	POP	EBP
 	RET
 
 ;
-_FSEEK:
+_fseek:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1136,14 +1137,14 @@ _FSEEK:
 	MOV	EBX,0
 	JE	_FSEEK.R
 
-;	MOV	BYTE [_ERRNO],ERR_SEEK
+;	MOV	BYTE [_errno],ERR_SEEK
 ;	DEC	EBX
 _FSEEK.R:
 	POP	EBP
 	RET
 
 ;
-_FTELL:
+_ftell:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1163,7 +1164,7 @@ _FTELL:
 
 
 ;
-_IN_B:
+_in_b:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	EDX,[EBP+P1]
@@ -1173,7 +1174,7 @@ _IN_B:
 	RET
 
 ;
-_OUT_B:	PUSH	EBP
+_out_b:	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	DX,[EBP+P1]
 	MOV	AL,[EBP+P2]
@@ -1183,7 +1184,7 @@ _OUT_B:	PUSH	EBP
 
 ;
 
-_DOS06:
+_dos06:
 	PUSH	EBP
 	MOV	AH,06H
 	MOV	DL,0FFH
@@ -1192,7 +1193,7 @@ _DOS06:
 	POP	EBP
 	RET
 ;
-_DOS07:
+_dos07:
 	PUSH	EBP
 	MOV	AH,07H
 	INT	21H
@@ -1200,7 +1201,7 @@ _DOS07:
 	POP	EBP
 	RET
 ;
-_DOS08:
+_dos08:
 	PUSH	EBP
 	MOV	AH,08H
 	INT	21H
@@ -1209,7 +1210,7 @@ _DOS08:
 	RET
 
 ;
-_DOS01:
+_dos01:
 	PUSH	EBP
 	MOV	AH,01H
 	INT	21H
@@ -1217,13 +1218,13 @@ _DOS01:
 	POP	EBP
 	RET
 
-DOS09:
+dos09:
 	MOV	AH,09H
 	INT	21H
 	RET
 
 ;
-_DOS0B:
+_dos0b:
 	PUSH	EBP
 	MOV	AH,0BH
 	INT	21H
@@ -1235,7 +1236,7 @@ _DOS0B:
 ;
 ;
 
-_PUTHEX_L:
+_puthex_l:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1249,7 +1250,7 @@ _PUTHEX_L:
 	POP	EBP
 	RET
 
-_PUTHEX_W:
+_puthex_w:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1261,7 +1262,7 @@ _PUTHEX_W:
 	RET
 
 
-_PUTHEX_B:
+_puthex_b:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1361,8 +1362,8 @@ FPUTC_BUF.R:
 
 ;
 
-_PUTC:
-_FPUTC:
+_putc:
+_fputc:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1411,7 +1412,7 @@ _FPUTC.R:
 ;
 ;
 ;
-_FGETS:
+_fgets:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1429,7 +1430,7 @@ _FGETS.10:
 	PUSH	ECX
 
 	PUSH	EBX
-	CALL	_FGETC
+	CALL	_fgetc
 	ADD	ESP,4
 	MOV	AL,BL
 	CMP	EBX,-1
@@ -1515,11 +1516,11 @@ FGETC_BUF.R:
 ;
 ;
 
-_GETC:
+_getc:
 ;
 ;
 ;
-_FGETC:
+_fgetc:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1581,7 +1582,7 @@ _FGETC.R:
 PERROR_FMT:DB	'perror (%s:%s)',0
 
 ;
-_PERROR:
+_perror:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1594,16 +1595,16 @@ _PERROR:
 	;CALL	_FPRINTF
 	;ADD	ESP,4*2
 
-	PUSH	DWORD [_ERRNO]
-	CALL	_STRERROR
+	PUSH	DWORD [_errno]
+	CALL	_strerror
 	ADD	ESP,4
 
 	PUSH	EBX
 
 	PUSH	DWORD [EBP+P1]
 	PUSH	DWORD PERROR_FMT
-	PUSH	DWORD [_STDERR]
-	CALL	_FPRINTF
+	PUSH	DWORD [_stderr]
+	CALL	_fprintf
 	ADD	ESP,4*3
 
 	ADD	ESP,4
@@ -1646,7 +1647,7 @@ PUTS.E:
 	RET
 
 ;
-_FPUTS:
+_fputs:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1683,15 +1684,15 @@ _puts:
 	MOV	ESI,[EBP+P1]
 	CALL	PUTS
 
-		PUSH	DWORD [_STDOUT]
+		PUSH	DWORD [_stdout]
 		PUSH	DWORD 0AH
-		CALL	_PUTC
+		CALL	_putc
 		ADD	ESP,4*2
 
 	POP	EBP
 	RET
 ;
-_VSPRINTF:
+_vsprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1700,7 +1701,7 @@ _VSPRINTF:
 	MOV	EDI,[EBP+P3]
 	JMP	_SPRINTF.1
 ;
-_SNPRINTF:
+_snprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1711,7 +1712,7 @@ _SNPRINTF:
 
 	PUSH	DWORD [EBP+P1]
 	PUSH	DWORD [EBP+P3]
-	CALL	_SPRINTF
+	CALL	_sprintf
 	ADD	ESP,4*2
 
 		CMP	BYTE [_SNPRINTF.OVER],0
@@ -1726,7 +1727,7 @@ _SNPRINTF.R:
 _SNPRINTF.OVER:DD	0
 
 ;
-_SPRINTF:
+_sprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1785,7 +1786,7 @@ _SPRINTF.PNT:
 _SPRINTF.PNT.END:
 	DD	0
 ;
-_VFPRINTF:
+_vfprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1793,7 +1794,7 @@ _VFPRINTF:
 	JMP	_FPRINTF.1
 
 ;
-_FPRINTF:
+_fprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -1862,7 +1863,7 @@ _PRINTF.OUT.PUTC:
 	PUSH	EDI
 	MOV	AH,0
 	PUSH	EAX
-	CALL	_FPUTC
+	CALL	_fputc
 	POP	EAX
 	POP	EAX
 
@@ -1889,7 +1890,7 @@ _printf:
 	POP	EBP
 	RET
 ;
-_VPRINTF:
+_vprintf:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2106,7 +2107,7 @@ _PRINTF_S:
 		JE	_PRINTF_S.20
 
 		PUSH	ESI
-		CALL	_STRLEN
+		CALL	_strlen
 		ADD	ESP,4
 		CMP	EBX,[_PRINTF.MAXWIDTH]
 		JBE	_PRINTF_S.05
@@ -2391,7 +2392,7 @@ PUTDC1:	XCHG	EDX,EBX
 	INC	EDX
 	DEC	CH
 	JNE	PUTDC1
-PUTDC2:	CALL	DOS09
+PUTDC2:	CALL	dos09
 	RET
 
 PUTHEX2:
@@ -2591,7 +2592,7 @@ WORKDC:	TIMES	80	DB	00h
 WORK:	TIMES	80	DB	00h
 
 ;
-_RENAME:
+_rename:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2606,7 +2607,7 @@ RENAME_WORK:
 
 ;
 
-_OPEN:
+_open:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2674,7 +2675,7 @@ CONV_NAME.50:
 
 ;
 
-_CLOSE:
+_close:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2689,7 +2690,7 @@ _CLOSE:
 
 ;
 
-_CREAT:
+_creat:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2717,7 +2718,7 @@ _CREAT.CV_NAME:
 
 ;
 
-_LSEEK:
+_lseek:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2738,7 +2739,7 @@ _LSEEK:
 
 ;
 
-_WRITE:
+_write:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2763,7 +2764,7 @@ _WRITE.R:
 
 ;
 
-_READ:
+_read:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -2785,7 +2786,7 @@ _READ.10:
 	JMP	_READ.R
 
 _READ#CRMODE:
-	CALL	_GETCH
+	CALL	_getch
 		CMP	BL,0DH
 		JNE	_READ#CRMODE.10
 		MOV	BL,0AH
@@ -2823,11 +2824,11 @@ PUTCHR:
 
 
 PUTCHR2:
-	MOV	EBX,[_STDOUT]
+	MOV	EBX,[_stdout]
 	PUSH	EBX
 	MOVZX	EBX,AL
 	PUSH	EBX
-	CALL	_FPUTC
+	CALL	_fputc
 	ADD	ESP,8
 
 	RET
@@ -2841,7 +2842,7 @@ PUTCHR2:
 	RET
 
 ;
-_GETCH:
+_getch:
 	PUSH	EBP
 	;MOV	AH,8	;cannot read ^P,^Q
 	MOV	AH,7
@@ -2853,7 +2854,7 @@ _GETCH:
 CRMOD:
 CRMODE:	DD	0
 ;
-_GETCHAR:
+_getchar:
 	PUSH	EBP
 
 	CMP	BYTE [CRMODE],0
@@ -2861,10 +2862,10 @@ _GETCHAR:
 _GETCHAR.10:
 	;		JMP	_GETCHAR.CON
 
-		;PUSH	DWORD [_STDIN]
-		MOV	EAX,[_STDIN]
+		;PUSH	DWORD [_stdin]
+		MOV	EAX,[_stdin]
 		PUSH	EAX
-		CALL	_GETC
+		CALL	_getc
 		ADD	ESP,4
 		JMP	_GETCHAR.E
 
@@ -2895,15 +2896,15 @@ _GETCHAR.E:
 	POP	EBP
 	RET
 
-_PUTCHAR:
+_putchar:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 		;PUSH	[_STDOUT]
-		MOV	EAX,[_STDOUT]
+		mov	eax,[_stdout]
 		PUSH	EAX
 		PUSH	DWORD [EBP+P1]
-		CALL	_PUTC
+		CALL	_putc
 		ADD	ESP,4*2
 		JMP	_PUTCHAR.R
 
@@ -2928,7 +2929,7 @@ _PUTCHAR.R:
 ;
 ;
 ;
-_STANDOUT:
+_standout:
 	MOV	AH,1DH
 	MOV	AL,1BH
 	INT	91H
@@ -2946,7 +2947,7 @@ _STANDOUT:
 
 ;
 ;
-_STANDEND:
+_standend:
 	MOV	AH,1DH
 	MOV	AL,1BH
 	INT	91H
@@ -2962,7 +2963,7 @@ _STANDEND:
 	RET
 
 
-_ACCESS:
+_access:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	EDX,[EBP+P1]
@@ -2979,28 +2980,28 @@ _ACCESS.R:
 	POP	EBP
 	RET
 
-_GETLOGIN:
+_getlogin:
 
-_GETPWUID:
+_getpwuid:
 
-_GETEUID:
+_geteuid:
 
-_GETUID:
+_getuid:
 
-_GETEGID:
+_getegid:
 
-_GETPPID:
+_getppid:
 
-_GETPID:
+_getpid:
 	MOV	EBX,1
 	RET
 
-_GETGID:
+_getgid:
 	RET
-_SETGID:
+_setgid:
 	RET
 ;
-_GETGRGID:
+_getgrgid:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -3010,39 +3011,39 @@ _GETGRGID:
 	POP	EBP
 	RET
 
-_WAIT:
+_wait:
 	RET
 
 ;
-_EXECVP:
-_EXECV:
-	JMP	_EXECL
+_execvp:
+_execv:
+	JMP	_execl
 
-_EXECL:
-_FORK:
-_SYSTEM:
+_execl:
+_fork:
+_system:
 	MOV	AH,4CH
 	INT	21H
 
-_SLEEP:
-_USLEEP:
+_sleep:
+_usleep:
 	RET
 
-_KILL:
+_kill:
 	RET
 
-_CHMOD:
+_chmod:
 	XOR	EBX,EBX		;success
 	RET
 
-_REMOVE:
+_remove:
 	RET
 
-_CHOWN:
+_chown:
 	XOR	EBX,EBX		;success
 	RET
 
-_CHDIR:
+_chdir:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -3062,7 +3063,7 @@ _CHDIR.R:
 	POP	EBP
 	RET
 
-_MKDIR:
+_mkdir:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -3085,19 +3086,19 @@ _MKDIR.R:
 
 ;
 ;
-_GETWD:
+_getwd:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 	PUSH	DWORD 200
 	PUSH	DWORD [EBP+P1]
-	CALL	_GETCWD
+	CALL	_getcwd
 	ADD	ESP,4*2
 
 	POP	EBP
 	RET
 
-_GETCWD:
+_getcwd:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -3107,7 +3108,7 @@ _GETCWD:
 	MOV	EBX,_GETWD.DIR
 	PUSH	EBX
 	PUSH	DWORD [EBP+P1]
-	CALL	_STRCPY
+	CALL	_strcpy
 	ADD	ESP,4*2
 
 	MOV	EBX,[EBP+P1]
@@ -3123,7 +3124,7 @@ _GETWD.DIR:
 	DB	'\',0
 
 ;
-_READLINK:
+_readlink:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -3133,17 +3134,17 @@ _READLINK:
 	RET
 
 
-_POPEN:
+_popen:
 	XOR	EBX,EBX
 	RET
 
-_PCLOSE:
+_pclose:
 	RET
 
-_UMASK:
+_umask:
 	RET
 
-_PIPE:
+_pipe:
 	MOV	EBX,-1	;failed
 	RET
 
@@ -3152,7 +3153,7 @@ _PIPE:
 ;	RET
 
 ;
-_ALARM:
+_alarm:
 	MOV	EBX,0
 	RET
 

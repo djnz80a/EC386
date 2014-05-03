@@ -1694,7 +1694,9 @@ set_f.51:
 	stosb
 	jmp	set_f.r
 
-;set_f.work:ds	100
+set_f.work:
+	;ds	100
+	times 100 db 00h
 
 set_f.r:
 	pop	eax

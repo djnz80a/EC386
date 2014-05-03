@@ -4,25 +4,27 @@
 	EXTERN	_get_f
 	EXTERN	TOUPPER
 	EXTERN	_IMOD.L
-	EXTERN	MALLOC_P
+;	EXTERN	MALLOC_P
 	EXTERN	END_FILE
+	
+	global MALLOC_P
 
-	GLOBAL	_ABORT
-	GLOBAL	_GETENV
-	GLOBAL	_ABS
-	GLOBAL	_LABS
-	GLOBAL	_ATOF
-	GLOBAL	_ATOL
-	GLOBAL	_ATOI
-	GLOBAL	_RANDOM
-	GLOBAL	_RAND
-	GLOBAL	_SRANDOMDEV
-	GLOBAL	_SRANDOM
-	GLOBAL	_SRAND
-	GLOBAL	_EXIT
-	GLOBAL	_ATEXIT
-	GLOBAL	_SBRK
-	GLOBAL	_CALLOC
+	global	_abort
+	global	_getenv
+	global	_abs
+	global	_labs
+	global	_atof
+	global	_atol
+	global	_atoi
+	global	_random
+	global	_rand
+	global	_srandomdev
+	global	_srandom
+	global	_srand
+	global	_exit
+	global	_atexit
+	global	_sbrk
+	global	_calloc
 
 	GLOBAL	_malloc	;_MALLOC
 	GLOBAL	_free	;_FREE
@@ -47,7 +49,7 @@ p2	EQU	P2
 p3	EQU	P3
 
 ;
-_ABORT:
+_abort:
 	MOV	AH,4CH
 	INT	21H
 	RET
@@ -58,7 +60,7 @@ _ENVIRON:
 ;
 ;
 ;
-_GETENV:
+_getenv:
 ;	MOV	EBX,0
 ;	RET
 
@@ -137,8 +139,8 @@ _GETENV.WORK:
 ;
 ;
 ;
-_ABS:
-_LABS:
+_abs:
+_labs:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -153,7 +155,7 @@ _LABS.R:
 ;
 ;
 ;
-_ATOF:
+_atof:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -168,8 +170,8 @@ _ATOF:
 ;
 ;
 ;
-_ATOL:
-_ATOI:
+_atol:
+_atoi:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -284,12 +286,12 @@ GETHEX.E:
 
 
 ;
-_RANDOM:
+_random:
 
 ;
 ;
 ;
-_RAND:
+_rand:
 	PUSH	EBP
 	CALL	RND
 	ROR	EAX,9
@@ -315,7 +317,7 @@ _RAND:
 	RET
 
 ;
-_SRANDOMDEV:
+_srandomdev:
 	PUSH	EBP
 
 	MOV	AH,2CH
@@ -333,7 +335,7 @@ _SRANDOMDEV:
 	MUL	EBP
 
 	PUSH	EAX
-	CALL	_SRANDOM
+	CALL	_srandom
 	ADD	ESP,4
 
 	POP	EBP
@@ -341,9 +343,9 @@ _SRANDOMDEV:
 
 
 ;
-_SRANDOM:
+_srandom:
 ;
-_SRAND:
+_srand:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -367,7 +369,7 @@ SEED:	DD	12345678H
 ;
 
 
-_EXIT:	PUSH	EBP
+_exit:	PUSH	EBP
 	MOV	EBP,ESP
 
 _EXIT.L1:
@@ -389,7 +391,7 @@ _EXIT.50:
 	POP	EBP
 	RET
 ;
-_ATEXIT:
+_atexit:
 ;	XOR	EBX,EBX
 
 	PUSH	EBP
@@ -448,7 +450,7 @@ _realloc:
 	;end	;**
 ;
 ;
-_SBRK:
+_sbrk:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -479,7 +481,7 @@ _SBRK.R:
 
 ;
 
-_CALLOC:
+_calloc:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -516,6 +518,7 @@ _CALLOC.R:
 ;#INCLUDE <B:\MALLOC0A.CLB>
 
 ;MALLOC_P:DD	BOTTOM	;8000H
+MALLOC_P:DD	0
 
 ;;#INCLUDE <B:\MALLOC2.CLB>
 

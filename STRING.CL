@@ -4,30 +4,30 @@
 	EXTERN	_malloc
 	EXTERN	TOUPPER
 
-	GLOBAL	_STRDUP
-	GLOBAL	_STRERROR
-;	GLOBAL	_STRCSPN
-	GLOBAL	_STRCHR
-	GLOBAL	_STRRCHR
-	GLOBAL	_INDEX
-	GLOBAL	_RINDEX
-	GLOBAL	_STRLEN
-	GLOBAL	_STRNCASECMP
-	GLOBAL	_STRNCMP
-	GLOBAL	_STRCASECMP
-	GLOBAL	_STRCMP
-	GLOBAL	_STRCAT
-	GLOBAL	_STRNCAT
-	GLOBAL	_STRNCPY
-	GLOBAL	_STRCPY
-	GLOBAL	_STRSTR
-	GLOBAL	_MEMMOVE
-	GLOBAL	_MEMCPY
-	GLOBAL	_MEMSET
-	GLOBAL	_MEMCMP
-	GLOBAL	_MEMCHR
-	GLOBAL	_BZERO
-	GLOBAL	_STRCOLL
+	global	_strdup
+	global	_strerror
+;	global	_strcspn
+	global	_strchr
+	global	_strrchr
+	global	_index
+	global	_rindex
+	global	_strlen
+	global	_strncasecmp
+	global	_strncmp
+	global	_strcasecmp
+	global	_strcmp
+	global	_strcat
+	global	_strncat
+	global	_strncpy
+	global	_strcpy
+	global	_strstr
+	global	_memmove
+	global	_memcpy
+	global	_memset
+	global	_memcmp
+	global	_memchr
+	global	_bzero
+	global	_strcoll
 
 P1	EQU	4*2
 P2	EQU	6*2
@@ -38,12 +38,12 @@ P6	EQU	14*2
 
 
 ;
-_STRDUP:
+_strdup:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 	PUSH	DWORD [EBP+P1]
-	CALL	_STRLEN
+	CALL	_strlen
 	ADD	ESP,4
 	INC	EBX
 	MOV	ECX,EBX
@@ -60,7 +60,7 @@ _STRDUP:
 	PUSH	ECX
 	PUSH	DWORD [EBP+P1]
 	PUSH	EBX
-	CALL	_STRCPY
+	CALL	_strcpy
 	ADD	ESP,4*3
 
 _STRDUP.R:
@@ -68,7 +68,7 @@ _STRDUP.R:
 	RET
 
 ;
-_STRERROR:
+_strerror:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -135,8 +135,8 @@ _STRCSPN.R:
 	RET
 
 ;
-_INDEX:
-_STRCHR:
+_index:
+_strchr:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -157,8 +157,8 @@ _STRCHR.R:
 	RET
 
 ;
-_RINDEX:
-_STRRCHR:
+_rindex:
+_strrchr:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -185,7 +185,7 @@ _STRRCHR.R:
 	RET
 
 ;
-_STRLEN:
+_strlen:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -206,7 +206,7 @@ _STRLEN.10:
 	RET
 ;
 ;
-_STRNCASECMP:
+_strncasecmp:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -249,7 +249,7 @@ _STRNCASECMP.R:
 	RET
 
 ;
-_STRNCMP:
+_strncmp:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -289,7 +289,7 @@ _STRNCMP.R:
 
 
 ;
-_STRCASECMP:
+_strcasecmp:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -336,7 +336,7 @@ _STRCASECMP.R:
 
 
 ;
-_STRCMP:
+_strcmp:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -377,7 +377,7 @@ _STRCMP.R:
 	POP	EBP
 	RET
 ;
-_STRNCAT:
+_strncat:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -412,7 +412,7 @@ _STRNCAT.30:
 
 ;
 
-_STRCAT:
+_strcat:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	ESI,[EBP+P1]
@@ -438,7 +438,7 @@ _STRCAT.20:
 ;
 ;
 ;
-_STRNCPY:
+_strncpy:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -471,7 +471,7 @@ _STRNCPY.E:
 ;
 ;
 ;
-_STRCPY:
+_strcpy:
 	PUSH	EBP
 	MOV	EBP,ESP
 	MOV	EDI,[EBP+P1]
@@ -490,18 +490,18 @@ _STRCPY.10:
 	RET
 
 ;
-_STRSTR:
+_strstr:
 	PUSH	EBP
 	MOV	EBP,ESP
 	SUB	ESP,4*2
 
 	PUSH	DWORD [EBP+P1]
-	CALL	_STRLEN
+	CALL	_strlen
 	ADD	ESP,4
 	MOV	[EBP-4],EBX
 
 	PUSH	DWORD [EBP+P2]
-	CALL	_STRLEN
+	CALL	_strlen
 	ADD	ESP,4
 	MOV	[EBP-8],EBX
 	OR	EBX,EBX
@@ -520,7 +520,7 @@ _STRSTR.L1:
 	PUSH	DWORD [EBP-8]
 	PUSH	DWORD [EBP+P2]
 	PUSH	ESI
-	CALL	_STRNCMP
+	CALL	_strncmp
 	ADD	ESP,4*3
 
 	POP	ESI
@@ -543,11 +543,11 @@ _STRSTR.R:
 	POP	EBP
 	RET
 ;
-_STRCOLL:
-	JMP	_STRCMP
+_strcoll:
+	JMP	_strcmp
 
 ;
-_MEMMOVE:
+_memmove:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -586,7 +586,7 @@ _MEMMOVE.R:
 	RET
 
 ;
-_MEMCPY:
+_memcpy:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -621,14 +621,14 @@ _MEMCPY.R:
 ;
 ;
 ;
-_BZERO:
+_bzero:
 	PUSH	EBP
 	MOV	EBP,ESP
 
 	PUSH	DWORD 0
 	PUSH	DWORD [EBP+P2]
 	PUSH	DWORD [EBP+P1]
-	CALL	_MEMSET
+	CALL	_memset
 	ADD	ESP,4*3
 
 	POP	EBP
@@ -636,7 +636,7 @@ _BZERO:
 
 ;
 
-_MEMSET:
+_memset:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -683,7 +683,7 @@ _MEMSET.R:
 	RET
 
 ;
-_MEMCMP:
+_memcmp:
 	PUSH	EBP
 	MOV	EBP,ESP
 
@@ -716,7 +716,7 @@ _MEMCMP.R:
 	RET
 
 ;
-_MEMCHR:
+_memchr:
 	PUSH	EBP
 	MOV	EBP,ESP
 
