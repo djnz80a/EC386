@@ -1,24 +1,80 @@
 
+	bits	32
+
 FILE_ALIGN EQU	1000h	;##
 
-	PUBLIC	BOTTOM
+	GLOBAL	BOTTOM
 
-	PUBLIC	.data
+	;GLOBAL	.data
 
-	EXTRN	.text
-	PUBLIC	.rdata
-	PUBLIC	.data
-	PUBLIC	.data_end
-	PUBLIC	.ENTRY_IAT
-	PUBLIC	.ENTRY_IMPORT
+	;EXTERN	.text
+	;GLOBAL	.rdata
+	;GLOBAL	.data
+	;GLOBAL	.data_end
+	;GLOBAL	.ENTRY_IAT
+	;GLOBAL	.ENTRY_IMPORT
 
-	PUBLIC	__IMAGE_DEBUG_DIRECTORY__
+	GLOBAL	__IMAGE_DEBUG_DIRECTORY__
+
+;;
+
+
+	GLOBAL	IAT_GetStdHandle
+	GLOBAL	IAT_WriteFile
+	GLOBAL	IAT_ReadFile
+	GLOBAL	IAT_CreateFileA
+	GLOBAL	IAT_CloseHandle
+	GLOBAL	IAT_ExitProcess
+	GLOBAL	IAT_GetCommandLineA
+	GLOBAL	IAT_SetFilePointer
+	GLOBAL	IAT_SetEndOfFile
+	GLOBAL	IAT_GlobalAlloc
+	GLOBAL	IAT_GlobalFree
+
+
+	GLOBAL	_RDATA
+	GLOBAL	_RDATA_FILL
+	GLOBAL	_RDATA_END
+
+	GLOBAL	_DATA
+	GLOBAL	_DATA_FILL
+	GLOBAL	_DATA_END
+
+
+	GLOBAL	STR_HELLO
+	GLOBAL	FILENAME_TEST1
+
+	GLOBAL	N_WROTE
+	GLOBAL	HDL_STDIN
+	GLOBAL	HDL_STDOUT
+	GLOBAL	HDL_STDERR
+
+	GLOBAL	HDL_OUTFILE
+
+	GLOBAL	N_READ
+	GLOBAL	PUTCHR_BUF
+	GLOBAL	CMDLINE
+	GLOBAL	READ_BUF
+
+	GLOBAL	ENTRY_IAT
+	GLOBAL	ENTRY_IMPORT
+
+	EXTERN	_TEXT_RVA
+	EXTERN	_RDATA_RVA
+	EXTERN	_DATA_RVA
+
+	EXTERN	BASE
+
+
+
+
 
 _TEXT_END:
 
 ;------------------------------------
 
-.rdata:
+;.rdata:
+__rdata:
 
 _RDATA:
 
@@ -31,7 +87,8 @@ _RDATA:
 ;Import Address Table
 ENTRY_IAT:
 
-IMPOFF	EQU	.rdata-00400000h
+;IMPOFF	EQU	.rdata-00400000h
+IMPOFF	EQU	__rdata-00400000h
 
 IAT_GetStdHandle:
 ;IAT_GetStdHandle EQU $-_RDATA+_RDATA_RVA+BASE
@@ -199,8 +256,8 @@ __IMAGE_DEBUG_DIRECTORY__:
 
 	DD	0  ;_DEBUG_HEADER1-_DEBUG+_DEBUG_RVA	;AddressOfRawData
 	;DD	_DEBUG_HEADER1-_DEBUG;-BASE	;PointerToRawData
-	DD	_DEBUG_HEADER1-BASE
-	;DD	0ff000000h
+	;DD	_DEBUG_HEADER1-BASE
+	DD	0ff000000h
 
 ;
 ;http://msdn.microsoft.com/en-us/library/windows/desktop/ms680307%28v=vs.85%29.aspx
@@ -252,11 +309,11 @@ HDL_OUTFILE:DD	0
 
 N_READ:DD	0
 
-PUTCHR_BUF:DS	1
+PUTCHR_BUF:DB	0
 
-CMDLINE:ds	4
+CMDLINE:DD	0
 
-READ_BUF:	ds	200
+READ_BUF:	TIMES	200	DB	00h
 
 ;USRDMA:
 
@@ -273,20 +330,6 @@ HEADER_END:
 .data_end:
 
 
-
-;	CLI
-;	mov	esp,40000h
-;	STI
-;	CLD
-
-;	CALL	GETCLINE
-
-;	MOV	EAX,DS
-;	MOV	ES,EAX
-
-;	MOV	ESI,CLINE+1
-;	MOV	EDI,FILE1
-;	CALL	STRCPY
 
 
 
@@ -321,63 +364,15 @@ _DEBUG_HEADER1:
 	DD	0	;NumberOfLinenumbers
 	DD	0	;LvaToFirstLinenumber
 
-	DD	_TEXT_RVA	;RvaToFirstByteOfCode
-	DD	_TEXT_END-1-_TEXT+_TEXT_RVA	;RvaToLastByteOfCode
-	DD	_DATA_RVA	;RvaToFirstByteOfData
-	DD	_DATA_END-1-_DATA+_DATA_RVA	;RvaToLastByteOfData
+	DD 0;DD	_TEXT_RVA	;RvaToFirstByteOfCode
+	DD 0;DD	_TEXT_END-1-_TEXT+_TEXT_RVA	;RvaToLastByteOfCode
+	DD 0;DD	_DATA_RVA	;RvaToFirstByteOfData
+	DD 0;DD	_DATA_END-1-_DATA+_DATA_RVA	;RvaToLastByteOfData
 
 
-;	dd	3dh
-;	dd	0020h
-;	dd	0
-;	dd	0
-
-;	dd	00001000h
-;	dd	00001200h
-;	dd	00002000h
-;	dd	00001400h
 
 
-;//
-;// Symbol format.
-;//
-;
-;typedef struct _IMAGE_SYMBOL {
-;    union {
-;        BYTE    ShortName[8];
-;        struct {
-;            DWORD   Short;     // if 0, use LongName
-;            DWORD   Long;      // offset into string table
-;        } Name;
-;        DWORD   LongName[2];    // PBYTE [2]
-;    } N;
-;    DWORD   Value;
-;    SHORT   SectionNumber;
-;    WORD    Type;
-;    BYTE    StorageClass;
-;    BYTE    NumberOfAuxSymbols;
-;} IMAGE_SYMBOL;
-;typedef IMAGE_SYMBOL UNALIGNED *PIMAGE_SYMBOL;
 
-;#define IMAGE_SIZEOF_SYMBOL                  18
-
-
-;//
-;// Section values.
-;//
-;// Symbols have a section number of the section in which they are
-;// defined. Otherwise, section numbers have the following meanings:
-;//
-;
-;#define IMAGE_SYM_UNDEFINED           (SHORT)0          // Symbol is undefined or is common.
-;#define IMAGE_SYM_ABSOLUTE            (SHORT)-1         // Symbol is an absolute value.
-;#define IMAGE_SYM_DEBUG               (SHORT)-2         // Symbol is a special debug item.
-;#define IMAGE_SYM_SECTION_MAX         0xFEFF  
-
-;IMAGE_SYM_UNDEFINED 0 Symbol record is not yet assigned a section. If the value
-;is 0 this indicates a references to an external symbol
-;defined elsewhere. If the value is non-zero this is a
-;common symbol with a size specified by the value.
 
 _SYM1:
 	DB	'header',0,0	;ShortName
@@ -418,7 +413,7 @@ _DEBUG_NAME_END:
 ;01C 00001000 SECT1  notype ()    External     | _start
 ;03C 00004000 DEBUG  notype       External     | end
 
-	ds	700h
+	TIMES	700h	DB	00h
 
 
 
@@ -428,52 +423,5 @@ _DEBUG_NAME_END:
 
 
 BOTTOM:
-
-
-	PUBLIC	IAT_GetStdHandle
-	PUBLIC	IAT_WriteFile
-	PUBLIC	IAT_ReadFile
-	PUBLIC	IAT_CreateFileA
-	PUBLIC	IAT_CloseHandle
-	PUBLIC	IAT_ExitProcess
-	PUBLIC	IAT_GetCommandLineA
-	PUBLIC	IAT_SetFilePointer
-	PUBLIC	IAT_SetEndOfFile
-	PUBLIC	IAT_GlobalAlloc
-	PUBLIC	IAT_GlobalFree
-
-
-	PUBLIC	_RDATA
-	PUBLIC	_RDATA_FILL
-	PUBLIC	_RDATA_END
-
-	PUBLIC	_DATA
-	PUBLIC	_DATA_FILL
-	PUBLIC	_DATA_END
-
-
-	PUBLIC	STR_HELLO
-	PUBLIC	FILENAME_TEST1
-
-	PUBLIC	N_WROTE
-	PUBLIC	HDL_STDIN
-	PUBLIC	HDL_STDOUT
-	PUBLIC	HDL_STDERR
-
-	PUBLIC	HDL_OUTFILE
-
-	PUBLIC	N_READ
-	PUBLIC	PUTCHR_BUF
-	PUBLIC	CMDLINE
-	PUBLIC	READ_BUF
-
-	PUBLIC	ENTRY_IAT
-	PUBLIC	ENTRY_IMPORT
-
-	EXTRN	_TEXT_RVA
-	EXTRN	_RDATA_RVA
-	EXTRN	_DATA_RVA
-
-	EXTRN	BASE
 
 
