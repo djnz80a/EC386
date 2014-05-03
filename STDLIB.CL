@@ -1,4 +1,6 @@
 
+	BITS	32
+
 	EXTERN	_get_f
 	EXTERN	TOUPPER
 	EXTERN	_IMOD.L

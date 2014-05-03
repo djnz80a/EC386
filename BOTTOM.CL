@@ -1,5 +1,5 @@
 
-	bits	32
+	BITS	32
 
 FILE_ALIGN EQU	1000h	;##
 
