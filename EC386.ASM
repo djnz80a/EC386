@@ -1042,7 +1042,7 @@ EXIT:
 ;
 ;
 
-TEST:
+;TEST:
 	RET
 
 ;

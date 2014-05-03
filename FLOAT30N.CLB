@@ -1,22 +1,22 @@
 
-	GLOBAL	_set_f
-	GLOBAL	_get_f
-	GLOBAL	_fdiv
-	GLOBAL	_fmul
-	GLOBAL	_fsub
-	GLOBAL	_fadd
-	GLOBAL	_fnormal
-	GLOBAL	_fneg
-	GLOBAL	_fabs
-	GLOBAL	_itof
-	GLOBAL	_ltof
-	GLOBAL	_ultof
-	GLOBAL	_ftoi
-	GLOBAL	_ftol
-	GLOBAL	_ldexp
-	GLOBAL	_frexp
-	GLOBAL	_fsgn
-	GLOBAL	_fcomp
+;	GLOBAL	_set_f
+;	GLOBAL	_get_f
+;	GLOBAL	_fdiv
+;	GLOBAL	_fmul
+;	GLOBAL	_fsub
+;	GLOBAL	_fadd
+;	GLOBAL	_fnormal
+;	GLOBAL	_fneg
+;	GLOBAL	_fabs
+;	GLOBAL	_itof
+;	GLOBAL	_ltof
+;	GLOBAL	_ultof
+;	GLOBAL	_ftoi
+;	GLOBAL	_ftol
+;	GLOBAL	_ldexp
+;	GLOBAL	_frexp
+;	GLOBAL	_fsgn
+;	GLOBAL	_fcomp
 
 
 	DB	"optimize=0",0
@@ -148,7 +148,7 @@ _fcomp:
 
 	mov	ebx,[ebp+8]	;4]
 	mov	ecx,[ebp+0ch]	;8]
-	call	fcomp
+	call	__fcomp
 	
 _fcomp_ret:
 	MOV	ESP,EBP
@@ -157,9 +157,9 @@ _fcomp_ret:
 _fcomp@size	EQU	0
 
 
-fcomp:
+__fcomp:
 		push	esi
-	call	fsub
+	call	__fsub
 	or	ebx,ebx
 	mov	ebx,0
 	je	fcomp.r
@@ -570,7 +570,7 @@ _fadd:
 
 	mov	ebx,[ebp+8]	;+4]
 	mov	ecx,[ebp+0ch]	;8]
-	call	fadd
+	call	__fadd
 	
 _fadd_ret:
 	MOV	ESP,EBP
@@ -579,7 +579,7 @@ _fadd_ret:
 _fadd@size	EQU	0
 
 
-fadd:
+__fadd:
 	push	ebp
 	push	ecx
 	push	ebx
@@ -647,7 +647,7 @@ fadd.pm:
 	mov	ebx,[ebp+0]
 	mov	ecx,[ebp+4]
 	call	fneg_ecx
-	call	fsub
+	call	__fsub
 	jmp	fadd.r
 
 fadd.m:
@@ -658,7 +658,7 @@ fadd.mp:
 	mov	ebx,[ebp+4]
 	mov	ecx,[ebp+0]
 	call	fneg_ecx
-	call	fsub
+	call	__fsub
 	jmp	fadd.r
 
 fadd.mm:
@@ -667,7 +667,7 @@ fadd.mm:
 	call	fneg_ebx
 	call	fneg_ecx
 
-	call	fadd
+	call	__fadd
 	call	fneg_ebx
 	jmp	fadd.r
 
@@ -698,7 +698,7 @@ _fsub:
 
 	mov	ebx,[ebp+8]	;+4]
 	mov	ecx,[ebp+0ch]	;8]
-	call	fsub
+	call	__fsub
 	
 _fsub_ret:
 	MOV	ESP,EBP
@@ -707,7 +707,7 @@ _fsub_ret:
 _fsub@size	EQU	0
 
 
-fsub:
+__fsub:
 	push	ebp
 	push	ecx
 	push	ebx
@@ -775,7 +775,7 @@ fsub.pm:
 	mov	ebx,[ebp+0]
 	mov	ecx,[ebp+4]
 	call	fneg_ecx
-	call	fadd
+	call	__fadd
 	jmp	fsub.r
 
 fsub.m:
@@ -785,7 +785,7 @@ fsub.mp:
 	mov	ebx,[ebp+0]
 	mov	ecx,[ebp+4]
 	call	fneg_ebx
-	call	fadd
+	call	__fadd
 	call	fneg_ebx
 	jmp	fsub.r
 
@@ -794,7 +794,7 @@ fsub.mm:
 	call	fneg_ebx
 	mov	ecx,[ebp+0]
 	call	fneg_ecx
-	call	fsub
+	call	__fsub
 	jmp	fsub.r
 
 fsub.left:
@@ -831,7 +831,7 @@ _fmul:
 
 	mov	ebx,[ebp+8]	;+4]
 	mov	ecx,[ebp+0ch]	;+8]
-	call	fmul
+	call	__fmul
 	
 _fmul_ret:
 	MOV	ESP,EBP
@@ -840,7 +840,7 @@ _fmul_ret:
 _fmul@size	EQU	0
 
 
-fmul:
+__fmul:
 	push	ebp
 	push	ecx
 	push	ebx
@@ -938,7 +938,7 @@ _fdiv:
 
 	mov	ebx,[ebp+8]	;+4]
 	mov	ecx,[ebp+0ch]	;8]
-	call	fdiv
+	call	__fdiv
 	
 _fdiv_ret:
 	MOV	ESP,EBP
@@ -947,7 +947,7 @@ _fdiv_ret:
 _fdiv@size	EQU	0
 
 
-fdiv:
+__fdiv:
 	push	ebp
 	push	ecx
 	push	ebx
@@ -1232,7 +1232,7 @@ get_f.55:
 	mov	ebx,ecx
 	call	ltof
 	pop	ecx
-	call	fadd
+	call	__fadd
 
 	jmp	get_f.r
 
@@ -1604,7 +1604,7 @@ set_f.high.10:
 	push	edx
 	push	edi
 	mov	ecx,40000001h	;1.0
-	call	fcomp
+	call	__fcomp
 	cmp	bx,-1
 	pop	edi
 	pop	edx
@@ -1618,7 +1618,7 @@ set_f.high.10:
 	push	ecx
 	push	edi
 	mov	ecx,50000004h
-	call	fdiv
+	call	__fdiv
 	pop	edi
 	pop	ecx
 	pop	edx
@@ -1646,7 +1646,7 @@ set_f.low2.10:
 	push	edx
 	push	ecx
 	mov	ecx,50000004h	;10.0
-	call	fmul
+	call	__fmul
 	pop	ecx
 	pop	edx
 	pop	ebp
