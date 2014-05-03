@@ -1,6 +1,21 @@
 
 	BITS	32
 
+	EXTERN	_GetStdHandle@4
+	EXTERN	_GetCommandLineA@0
+	EXTERN	_WriteFile@20
+	EXTERN	_CreateFileA@28
+	EXTERN	_CloseHandle@4
+	
+	EXTERN	_GlobalAlloc@8
+	EXTERN	_GlobalFree@4
+	
+	EXTERN	_ExitProcess@4
+
+	
+	;GLOBAL _TEXT
+	GLOBAL	_MAIN0
+
 	EXTERN	_main
 
 	GLOBAL	START
@@ -126,23 +141,29 @@ UNINIT_DATA_SIZE EQU	0
 
 ;.text:
 
+_MAIN0:
 _TEXT:
+
 
 ;+400	".text"
 
 	PUSH	DWORD -10
-	CALL	[IAT_GetStdHandle]
+	;CALL	[IAT_GetStdHandle]
+	CALL	_GetStdHandle@4
 	MOV	[HDL_STDIN],EAX
 
 	PUSH	DWORD -11
-	CALL	[IAT_GetStdHandle]
+	;CALL	[IAT_GetStdHandle]
+	CALL	_GetStdHandle@4
 	MOV	[HDL_STDOUT],EAX
 
 	PUSH	DWORD -12
-	CALL	[IAT_GetStdHandle]
+	;CALL	[IAT_GetStdHandle]
+	CALL	_GetStdHandle@4
 	MOV	[HDL_STDERR],EAX
 
-	CALL	[IAT_GetCommandLineA]
+	;CALL	[IAT_GetCommandLineA]
+	CALL	_GetCommandLineA@0
 	MOV	[CMDLINE],EAX
 
 	MOV	ESI,EAX
@@ -151,7 +172,7 @@ _TEXT:
 
 
 
-	;JMP	TEST_HELLO
+	JMP	TEST_HELLO
 
 	;JMP	TEST2
 	;JMP	TEST3
@@ -363,7 +384,8 @@ __PUTCHR:
 	push	DWORD	01h
 	push	DWORD	PUTCHR_BUF
 	push	DWORD	[HDL_STDOUT]
-	CALL	[IAT_WriteFile]
+	;CALL	[IAT_WriteFile]
+	CALL	_WriteFile@20
 
 	POP	EAX
 
@@ -381,7 +403,8 @@ __ALLOC:
 	MOV	EBX,GMEM_FIXED+GMEM_ZEROINIT
 	PUSH	EAX
 	PUSH	EBX
-	CALL	[IAT_GlobalAlloc]
+	;CALL	[IAT_GlobalAlloc]
+	CALL	_GlobalAlloc@8
 
 	OR	EAX,EAX
 	;;JE	ERR_ALLOC
@@ -397,7 +420,8 @@ __ALLOC:
 
 FREE:
 	PUSH	EAX
-	CALL	[IAT_GlobalFree]
+	;CALL	[IAT_GlobalFree]
+	CALL	_GlobalFree@4
 
 	RET
 
@@ -1289,7 +1313,8 @@ TOUPPER.R:
 INT21_exit:
 	MOVZX	EAX,AL
 	PUSH	EAX
-	CALL	[IAT_ExitProcess]
+	;CALL	[IAT_ExitProcess]
+	CALL	_ExitProcess@4
 
 	RET
 
@@ -1316,4 +1341,4 @@ MYDTA:
 	XOR	EAX,EAX
 	CALL	INT21_exit
 
-	ALIGN	FILE_ALIGN
+	;ALIGN	FILE_ALIGN

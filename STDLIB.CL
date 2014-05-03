@@ -8,7 +8,7 @@
 	EXTERN	END_FILE
 	
 	global MALLOC_P
-
+	
 	global	_abort
 	global	_getenv
 	global	_abs
@@ -522,5 +522,5 @@ MALLOC_P:DD	0
 
 ;;#INCLUDE <B:\MALLOC2.CLB>
 
-	ALIGN	1000h
+	;ALIGN	1000h
 

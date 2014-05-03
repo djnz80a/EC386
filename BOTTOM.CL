@@ -73,6 +73,8 @@ _TEXT_END:
 
 ;------------------------------------
 
+	section .data
+
 ;.rdata:
 __rdata:
 
@@ -290,7 +292,7 @@ __IMAGE_DEBUG_DIRECTORY__:
 
 _RDATA_FILL:
 	;ds	HEADER+0800h-$
-	ALIGN	FILE_ALIGN	;200h
+	;ALIGN	FILE_ALIGN	;200h
 
 _RDATA_END:
 
@@ -331,7 +333,7 @@ READ_BUF:	TIMES	200	DB	00h
 
 _DATA_FILL:
 	;ds	HEADER+0a00h-$
-	ALIGN	FILE_ALIGN	;200h
+	;ALIGN	FILE_ALIGN	;200h
 
 _DATA_END:
 
@@ -344,7 +346,7 @@ HEADER_END:
 
 
 
-	ALIGN FILE_ALIGN
+	;ALIGN FILE_ALIGN
 
 
 
@@ -423,13 +425,13 @@ _DEBUG_NAME_END:
 ;01C 00001000 SECT1  notype ()    External     | _start
 ;03C 00004000 DEBUG  notype       External     | end
 
-	TIMES	700h	DB	00h
+	;TIMES	700h	DB	00h
 
 
 
 	db	"BOTTOM",0
 
-	ALIGN	FILE_ALIGN
+	;ALIGN	FILE_ALIGN
 
 
 BOTTOM:
