@@ -1,4 +1,6 @@
 
+	global	BASE
+
 	global _BSS_START
 	global _BSS_END
 	global	ALLOC
