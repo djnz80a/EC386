@@ -1,3 +1,4 @@
+	global	SET_STRING_MACRO
 
 ;
 ;

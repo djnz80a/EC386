@@ -1,3 +1,6 @@
+	global	INIT_DEFINE.SUB
+	global	SET_STRING_MACRO
+	global	SET_WORD1_MACRO
 ;
 ;	not expand macro in block #if 0 { .. } #endif
 ;
@@ -1376,8 +1379,6 @@ _UNDEF.10:
 _UNDEF.R:
 	CALL	GET_WORD4
 	RET
-
-
 
 ;
 ;
