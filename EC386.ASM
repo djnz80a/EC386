@@ -1,16 +1,29 @@
 
 	BITS	32
 
+%INCLUDE "CONFIG.ASM"
+
+%IF OS_WIN
 	ORG	00400000h
+%ENDIF
 
+	section ".text"
 BASE:
+	jmp	_TEXT
 
+%IF OS_WIN
 %INCLUDE "HEADER.ASM"
+%ENDIF
+
+	global EP
+
+EP:
 
 _TEXT:
 
 ;+400	".text"
 
+%IF OS_WIN
 	PUSH	DWORD -10
 	CALL	[IAT_GetStdHandle]
 	MOV	[HDL_STDIN],EAX
@@ -28,7 +41,21 @@ _TEXT:
 
 	MOV	ESI,EAX
 	CALL	_PUTSTR
+%ELSE
+	MOV	EAX,0
+	MOV	[HDL_STDIN],EAX
+	MOV	EAX,1
+	MOV	[HDL_STDOUT],EAX
+	MOV	EAX,2
+	MOV	[HDL_STDERR],EAX
+%ENDIF
 
+%IF OS_LINUX
+	MOV	AL,'@'
+	CALL	_PUTCHR
+
+	CALL	_PUTCRLF
+%ENDIF
 
 
 
@@ -42,6 +69,8 @@ _TEXT:
 	;JMP	TEST7
 
 	JMP	A386_MAIN
+
+%IF OS_WIN
 
 	PUSH	DWORD -12;-11;	PUSH	0FFFFFFF5h
 	;CALL	[IAT_GetStdHandle-_RDATA+_RDATA_RVA+BASE]	;CALL	[00402000h]
@@ -209,6 +238,8 @@ TEST7.10:
 	CALL	_PUTCRLF
 	RET
 
+%ENDIF
+
 _PUTCRLF:
 	MOV	AL,0Dh
 	CALL	_PUTCHR
@@ -230,6 +261,7 @@ _PUTSTR:
 _PUTSTR.R:
 	RET
 
+%IF OS_WIN
 _PUTCHR:
 	PUSHAD
 
@@ -249,7 +281,22 @@ _PUTCHR:
 
 	POPAD
 	RET
+%ELSE
+_PUTCHR:
+	PUSHAD
 
+	MOV	[PUTCHR_BUF],AL
+
+	MOV	EDX,1		;len
+	MOV	ECX,PUTCHR_BUF	;address
+	MOV	EBX,1		;stdout
+	MOV	EAX,4		;sys_write
+	INT	80H
+
+	POPAD
+	RET
+
+%ENDIF
 
 
 GMEM_FIXED	EQU	00000000H
@@ -258,6 +305,7 @@ GMEM_ZEROINIT	EQU	00000040H
 ;	EAX<size
 ;	>EAX memory address
 
+%IF OS_WIN
 ALLOC:
 	MOV	EBX,GMEM_FIXED+GMEM_ZEROINIT
 	PUSH	EAX
@@ -273,14 +321,21 @@ ALLOC:
 	POPAD
 
 	RET
+%ELSE
+ALLOC:
+	RET
+%ENDIF
 
 ;	EAX<memory address
 
+%IF OS_WIN
 FREE:
 	PUSH	EAX
 	CALL	[IAT_GlobalFree]
 
 	RET
+%ELSE
+%ENDIF
 
 ;################
 
@@ -3036,8 +3091,10 @@ _END:	CALL	FCBDEC
 ;	ds	1000h
 
 _TEXT_FILL:
+%IF OS_WIN
 	;ds	HEADER+0600h-$
 	ALIGN	FILE_ALIGN	;200h
+%ENDIF
 
 ;#define STD_INPUT_HANDLE    ((DWORD)-10)
 ;#define STD_OUTPUT_HANDLE   ((DWORD)-11)
@@ -3046,9 +3103,12 @@ _TEXT_FILL:
 _TEXT_END:
 
 ;------------------------------------
+%IF OS_WIN
 %INCLUDE "EC-IMP.ASM"
+%ENDIF
 ;-----------------------
 
+	section ".data"
 _DATA:
 
 ;+800	".data" ->3000h-
@@ -3091,9 +3151,10 @@ READ_BUF:	TIMES	200	DB 00h
 
 
 _DATA_FILL:
+%IF OS_WIN
 	;ds	HEADER+0a00h-$
 	ALIGN	FILE_ALIGN	;200h
-
+%ENDIF
 _DATA_END:
 
 ;---------------------------
@@ -3126,10 +3187,11 @@ _DATA_END:
 
 HEADER_END:
 
-
+%IF OS_WIN
 	ALIGN FILE_ALIGN
+%ENDIF
 
-
+%IF OS_WIN
 
 ;IMAGE_COFF_SYMBOLS_HEADER
 _DEBUG_HEADER1:
@@ -3184,7 +3246,7 @@ _DEBUG_NAME_END:
 
 	TIMES	700h	DB 00h
 
-
+%ENDIF
 
 
 

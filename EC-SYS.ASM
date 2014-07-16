@@ -1,3 +1,4 @@
+%IF OS_WIN
 ;
 ;	EDX:filename
 ;	AL:mode(unused)
@@ -393,4 +394,25 @@ _DOS09.R:
 ;	CALL	_PUTCHR
 ;	POPAD
 ;	RET
+%ELSE
+
+SYS_open:
+
+SYS_create:
+SYS_seek:
+SYS_read:
+SYS_write:
+SYS_truncate:
+SYS_close:
+SYS_exit:
+SYS_putchr:
+SYS_putstr:
+SYS_gettime:
+SYS_stdin_status:
+SYS_getchr:
+	RET
+INTE4_putchr:
+	RET
+
+%ENDIF
 
