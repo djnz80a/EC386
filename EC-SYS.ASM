@@ -404,10 +404,10 @@ _DOS09.R:
 
 	global	SYS_open
 SYS_open:
-	MOV	EDX,0	;mode
 	MOV	ECX,0	;flags O_RDONLY=0
 	MOV	EBX,EDX	;filename
 	MOV	EAX,5	;sys_open
+	MOV	EDX,0	;mode
 	int	80h
 	CMP	EAX,0
 	JLE	SYS_open.ERR
@@ -426,6 +426,12 @@ SYS_create:
 	MOV	EBX,EDX
 	MOV	EAX,8	;sys_creat
 	int	80h
+	CMP	EAX,0
+	JLE	SYS_create.ERR
+	CLC
+	RET
+SYS_create.ERR:
+	STC
 	ret
 
 ;	AL:0(from top)/1(from current)/2(from bottom)
