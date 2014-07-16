@@ -402,12 +402,19 @@ _DOS09.R:
 ;	>EAX:handle
 ;
 
+	global	SYS_open
 SYS_open:
 	MOV	EDX,0	;mode
 	MOV	ECX,0	;flags O_RDONLY=0
 	MOV	EBX,EDX	;filename
 	MOV	EAX,5	;sys_open
 	int	80h
+	CMP	EAX,0
+	JLE	SYS_open.ERR
+	CLC
+	RET
+SYS_open.ERR:
+	STC
 	ret
 
 ;	EDX:filename
