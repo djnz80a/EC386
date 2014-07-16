@@ -396,17 +396,132 @@ _DOS09.R:
 ;	RET
 %ELSE
 
+;
+;	EDX:filename
+;	AL:mode(unused)
+;	>EAX:handle
+;
+
 SYS_open:
+	MOV	EDX,0	;mode
+	MOV	ECX,0	;flags O_RDONLY=0
+	MOV	EBX,EDX	;filename
+	MOV	EAX,5	;sys_open
+	int	80h
+	ret
+
+;	EDX:filename
+;	AL:mode(unused)
+;	>EAX:handle
 
 SYS_create:
+	MOV	ECX,448	;0700
+	MOV	EBX,EDX
+	MOV	EAX,8	;sys_creat
+	int	80h
+	ret
+
+;	AL:0(from top)/1(from current)/2(from bottom)
+;	EBX:handle
+;	CX:DX:distance
+
 SYS_seek:
+	MOVZX	EDX,AL
+
+	SHL	ECX,10h
+	MOV	CX,DX
+
+	MOV	EAX,19	;sys_lseek
+	int	80h
+	ret
+
+;	EBX:handle
+;	ECX:bytes
+;	EDX:address
+
 SYS_read:
+	XCHG	ECX,EDX
+	MOV	EAX,3	;sys_read
+	int	80h
+	RET
+
+;	EBX:handle
+;	ECX:bytes
+;	EDX:address
+
 SYS_write:
+	XCHG	ECX,EDX
+	MOV	EAX,4	;sys_write
+	int	80h
+	ret
+
 SYS_truncate:
+	RET
+;
+;	EBX:handle
+;
+
 SYS_close:
+	MOV	EAX,6	;sys_close
+	int	80h
+	RET
+
+;
+;	al=code
+;
+
 SYS_exit:
+	MOVZX	EAX,AL
+	MOV	EBX,EAX
+	MOV	EAX,1	;sys_exit
+	int	80h
+	RET
+
+;
+;
+;
+
 SYS_putchr:
+	MOV	AL,DL
+	CALL	_PUTCHR
+	RET
+%IF 0
+;_PUTCHR:
+        PUSHAD
+
+        MOV     [PUTCHR_BUF],AL
+
+        MOV     EDX,1           ;len
+        MOV     ECX,PUTCHR_BUF  ;address
+        MOV     EBX,1           ;stdout
+        MOV     EAX,4           ;sys_write
+        INT     80H
+
+        POPAD
+        RET
+%ENDIF
+
+
 SYS_putstr:
+
+	PUSHAD
+sys_putstr.1:
+	MOV	AL,[EDX]
+	CMP	AL,'$'
+	JE	sys_putstr.2
+	PUSH	EDX
+	;CALL	DOS02
+	MOV	DL,AL
+	CALL	SYS_putchr
+	POP	EDX
+	INC	EDX
+	JMP	sys_putstr.1
+
+sys_putstr.2:
+	POPAD
+	RET
+
+
 SYS_gettime:
 SYS_stdin_status:
 SYS_getchr:
