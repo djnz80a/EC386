@@ -456,6 +456,8 @@ SYS_write:
 	ret
 
 SYS_truncate:
+	;MOV	EBX,	;size
+	MOV	EAX,93	;sys_ftruncate
 	RET
 ;
 ;	EBX:handle
