@@ -542,6 +542,7 @@ SYS_stdin_status:
 SYS_getchr:
 	RET
 INTE4_putchr:
+	CALL	_PUTCHR_CON
 	RET
 
 %ENDIF

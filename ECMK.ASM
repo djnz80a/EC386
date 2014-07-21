@@ -1,4 +1,5 @@
 
+	global	MK
 
 
 
@@ -374,27 +375,45 @@ MK0:
 ;
 
 MK:
-;	pushad
-;
-;	pushad
-;	call	disp
-;	db	'mk$'
-;	popad
-;	mov	eax,esi
-;	call	disp_ax
-;	CALL	LIST_WORD_EXP
-;	CALL	LIST_WORD_GLOBAL
+%if 0
+	pushad
 
-;	mov	ebx,[esi+NODE1]
-;	mov	al,[ebx]
-;	call	putchr_con
-;	mov	al,[ebx+1]
-;	call	putchr_con
-;	mov	al,[ebx+2]
-;	call	putchr_con
-;
-;	popad
+	pushad
+	call	DISP
+	db	'mk$'
+	popad
+	mov	eax,esi
+	call	DISP_AX
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+	CALL	LIST_WORD_EXP
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+	CALL	LIST_WORD_GLOBAL
+
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+
+	mov	ebx,[esi+NODE1]
+	mov	al,[ebx]
+	call	PUTCHR_CON
+	mov	al,[ebx+1]
+	call	PUTCHR_CON
+	mov	al,[ebx+2]
+	call	PUTCHR_CON
+
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+	MOV	AL,':'
+	CALL	PUTCHR_CON
+
+	MOV	AL,0Ah
+	CALL	PUTCHR_CON
+	popad
 ;	ret
+%endif
 
 	CMP	ESI,100H
 	JB	MK.E

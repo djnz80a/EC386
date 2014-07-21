@@ -119,6 +119,7 @@ EMES_TYPE:DB	'type error!!$'
 EMES_SYNTAX:DB	'syntax error$'
 
 EMES_UNDEF:DB	'undefined$'
+EMES_UNDEF_T:DB	'undefined_test$'
 
 
 EMES_ALLOC:
