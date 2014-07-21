@@ -456,6 +456,18 @@ SYS_read:
 	XCHG	ECX,EDX
 	MOV	EAX,3	;sys_read
 	int	80h
+
+	PUSHAD
+
+	PUSH	EAX
+	CALL	DISP
+	DB	'[SYS_read:$'
+	POP	EBX
+
+	CALL	PUTHEXD
+	CALL	DISP
+	DB	']$'
+	POPAD
 	RET
 
 ;	EBX:handle

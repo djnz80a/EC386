@@ -434,6 +434,9 @@ ALLOC:
 ;	EAX<size
 ;	>EAX memory address
 ALLOC:
+	PUSH	EBX
+	PUSH	EDX
+
 	MOV	EDX,[BSS_PNT]
 	MOV	EBX,EDX
 
@@ -443,6 +446,9 @@ ALLOC:
 	MOV	[BSS_PNT],EDX
 
 	MOV	EAX,EBX
+
+	POP	EDX
+	POP	EBX
 	RET
 
 ALLOC.ERROR:

@@ -1,3 +1,5 @@
+	global	WORD_WORK
+	global	USRDMA
 
 ;------------- EC386.ASM ------------------
 REF_DRV:db	'b:\',0
@@ -114,9 +116,23 @@ WORD__TIME__:
 
 ;------------- ECSUB.ASM ------------------
 
+TBL_REP_EQ_TOKEN:
+	DB	'&|+-='
+
+TBL_1TOKEN:
+	DB	'?~()[]{}.,:;','"',"'"
+	DB	1AH
+	DB	'#'
+
+TBL_2TOKEN:
+	DB	'!&|^+-*/%=<>'
+
 EMES_TYPE:DB	'type error!!$'
 
 EMES_SYNTAX:DB	'syntax error$'
+EMES_SYNTAX_DEF:DB	'syntax error(DEF)$'
+EMES_SYNTAX_EXP:DB	'syntax error(EXP)$'
+EMES_SYNTAX_MACRO:DB	'syntax error(MACRO)$'
 
 EMES_UNDEF:DB	'undefined$'
 EMES_UNDEF_T:DB	'undefined_test$'
@@ -626,6 +642,7 @@ STRING_MACRO_PNT:	DD	0
 
 UNGETC_MAX:	TIMES	4000	DB 00h;for ungetc
 USRDMA:
+	TIMES	(R.BUF+W.BUF)	DB 00h
 
 ;---------------- ECSUB.ASM end ----------------
 
