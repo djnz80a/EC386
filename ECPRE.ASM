@@ -1750,9 +1750,12 @@ SUBI1:	MOV	AL,[CHR_WORK]
 	CMP	AL,'"'
 	JE	SUBI7
 
+%if OS_WIN
 		CMP	AL,'/'
 		JNE	SUBI.11
 		MOV	AL,'\'
+%endif
+
 SUBI.11:
 	MOV	[EDI],AL
 	INC	EDI
