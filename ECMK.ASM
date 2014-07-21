@@ -74,12 +74,12 @@ CHECKT2:
 	RET
 
 CHECKT.NUM:
-	MOV	AX,'00'
+	MOV	AX,WD('0','0')
 	STOSW
 	RET
 
 CHECKT.NAME:
-	MOV	AX,'__'
+	MOV	AX,WD('_','_')
 	STOSW
 	RET
 
@@ -97,12 +97,12 @@ CHECKT.BIN:
 	RET
 
 CHECKT.SCALAR:
-	MOV	AX,'SS'
+	MOV	AX,WD('S','S')
 	STOSW
 	RET
 
 CHECKT.ZERO:
-	MOV	AX,'##'
+	MOV	AX,WD('#','#')
 	STOSW
 	RET
 ;
@@ -149,7 +149,7 @@ MK_CONST:
 	MOV	EBX,[ESI+NODE1]
 	MOV	AX,[EBX]
 
-	CMP	AX,'()'
+	CMP	AX,WD('(',')')
 	JE	MK_CONST.CAST
 
 	CMP	AX,'+'
@@ -160,9 +160,9 @@ MK_CONST:
 	CMP	AX,'&'
 	JE	MK_CONST.ADR
 
-	CMP	AX,'00'
+	CMP	AX,WD('0','0')
 	JE	MK_CONST.NO
-	CMP	AX,'""'
+	CMP	AX,WD('"','"')
 	JE	MK_CONST.DQ
 
 	CALL	IS_CCHR_F
@@ -240,7 +240,7 @@ MK_CONST.ADR.ADD:
 	MOV	EBX,[EBX+NODE3]
 	MOV	EAX,[EBX+NODE1]
 	MOV	AX,[EAX]
-	CMP	AX,'00'
+	CMP	AX,WD('0','0')
 	JE	MK_CONST.ADR.ADD.NO
 
 	JMP	ERR_TYPE
@@ -356,13 +356,13 @@ MK0:
 	MOV	BYTE [FLG.MK0],0FFH
 	MOV	EAX,[ESI+NODE1]
 	MOV	AX,[EAX]
-	CMP	AX,'++'
+	CMP	AX,WD('+','+')
 	JE	MK_INC
-	CMP	AX,'--'
+	CMP	AX,WD('-','-')
 	JE	MK_DEC
-	CMP	AX,'+1'
+	CMP	AX,WD('+','1')
 	JE	MK_INC
-	CMP	AX,'-1'
+	CMP	AX,WD('-','1')
 	JE	MK_DEC
 
 	MOV	BYTE [FLG.MK0],0
@@ -405,29 +405,29 @@ MK:
 ;	CMP	AX,'!'
 ;	JE	MK_NOT
 
-	CMP	AX,'~~'
+	CMP	AX,WD('~','~')
 	JE	MK_MINUS
 	CMP	AX,'~'
 	JE	MK_NOT
 	CMP	AX,'.'
 	JE	MK_DOT
-	CMP	AX,'()'
+	CMP	AX,WD('(',')')
 	JE	MK_CAST
-	CMP	AX,'+1'
+	CMP	AX,WD('+','1')
 	JE	MK_PREINC
-	CMP	AX,'-1'
+	CMP	AX,WD('-','1')
 	JE	MK_PREDEC
 	CMP	AX,'&'
 	JE	MK_ADR
 	CMP	AX,'?'
 	JE	MK_SEL
-	CMP	AX,'**'
+	CMP	AX,WD('*','*')
 	JE	MK_MUL
 	CMP	AX,'/'
 	JE	MK_DIV
 	CMP	AX,'%'
 	JE	MK_MOD
-	CMP	AX,'&2'
+	CMP	AX,WD('&','2')
 	JE	MK_AND
 	CMP	AX,'|'
 	JE	MK_OR
@@ -435,58 +435,58 @@ MK:
 	JE	MK_XOR
 	CMP	AX,','
 	JE	MK_COMMA
-	CMP	AX,'""'
+	CMP	AX,WD('"','"')
 	JE	MK_DQ
 	CMP	AX,'+'
 	JE	MK_ADD
 	CMP	AX,'-'
 	JE	MK_SUB
-	CMP	AX,'<<'
+	CMP	AX,WD('<','<')
 	JE	MK_SHL
-	CMP	AX,'>>'
+	CMP	AX,WD('>','>')
 	JE	MK_SHR
 
-	CMP	AX,'+='
+	CMP	AX,WD('+','=')
 	MOV	EBX,PR_ADD_TBL
 	JE	MK_LET
-	CMP	AX,'-='
+	CMP	AX,WD('-','=')
 	MOV	EBX,PR_SUB_TBL
 	JE	MK_LET
-	CMP	AX,'*='
+	CMP	AX,WD('*','=')
 	MOV	EBX,PR_MUL_TBL
 	JE	MK_LET
-	CMP	AX,'/='
+	CMP	AX,WD('/','=')
 	MOV	EBX,PR_DIV_TBL
 	JE	MK_LET
-	CMP	AX,'%='
+	CMP	AX,WD('%','=')
 	MOV	EBX,PR_MOD_TBL
 	JE	MK_LET
-	CMP	AX,'|='
+	CMP	AX,WD('|','=')
 	MOV	EBX,PR_OR_TBL
 	JE	MK_LET
-	CMP	AX,'&='
+	CMP	AX,WD('&','=')
 	MOV	EBX,PR_AND_TBL
 	JE	MK_LET
-	CMP	AX,'^='
+	CMP	AX,WD('^','=')
 	MOV	EBX,PR_XOR_TBL
 	JE	MK_LET
-	CMP	AX,'r='
+	CMP	AX,WD('r','=')
 	MOV	EBX,PR_SHR_TBL
 	JE	MK_LET
-	CMP	AX,'l='
+	CMP	AX,WD('l','=')
 	MOV	EBX,PR_SHL_TBL
 	JE	MK_LET
 
-	CMP	AX,'={'
+	CMP	AX,WD('=','{')
 	JE	MK_LET.STRUCT
 
 	CMP	AX,'='
 	MOV	EBX,PR_LET_TBL
 	JE	MK_LET
 
-	CMP	AX,'++'
+	CMP	AX,WD('+','+')
 	JE	MK_INC
-	CMP	AX,'--'
+	CMP	AX,WD('-','-')
 	JE	MK_DEC
 
 	CMP	AX,'*'
@@ -495,7 +495,7 @@ MK:
 	JE	MK_FNC
 ;	CMP	AX,'['
 ;	JE	MK_ARY
-	CMP	AX,'00'
+	CMP	AX,WD('0','0')
 	JE	MK_NUM
 	CALL	IS_CCHR_F
 	JE	MK_VAR
@@ -2282,14 +2282,14 @@ SCALE:
 	MOV	EBX,[ESI+NODE3]
 	MOV	EAX,[EBX+NODE1]
 	MOV	AX,[EAX]
-	CMP	AX,'**'
+	CMP	AX,WD('*','*')
 	JNE	SCALE.N
 
 	MOV	EBX,[ESI+NODE3]
 	MOV	EBX,[EBX+NODE3]
 	MOV	EAX,[EBX+NODE1]
 	MOV	AX,[EAX]
-	CMP	AX,'00'
+	CMP	AX,WD('0','0')
 	JNE	SCALE.N
 	MOV	EAX,[EBX+NODE4]
 	CMP	EAX,4
@@ -2418,7 +2418,7 @@ MK_FNC_SUB.10:
 MK_FNC_SUB.OPT:
 	MOV	EAX,[ESI+NODE1]
 	MOV	AX,[EAX]
-	CMP	AX,'00'
+	CMP	AX,WD('0','0')
 	JE	MK_FNC_SUB.20NO
 	JMP	MK_FNC_SUB.NOPT
 
