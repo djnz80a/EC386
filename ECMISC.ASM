@@ -205,25 +205,25 @@ IS_COND:
 IS_COND_WORD:
 	CMP	AX,'!'
 	JE	IS_COND.Y
-	CMP	AX,'=='
+	CMP	AX,WD('=','=')
 	JE	IS_COND.Y
-	CMP	AX,'!='
+	CMP	AX,WD('!','=')
 	JE	IS_COND.Y
-	CMP	AX,'&&'
+	CMP	AX,WD('&','&')
 	JE	IS_COND.Y
-	CMP	AX,'||'
+	CMP	AX,WD('|','|')
 	JE	IS_COND.Y
 	CMP	AX,'>'
 	JE	IS_COND.Y
-	CMP	AX,'=>'
+	CMP	AX,WD('=','>')
 	JE	IS_COND.Y
-	CMP	AX,'>='
+	CMP	AX,WD('>','=')
 	JE	IS_COND.Y
 	CMP	AX,'<'
 	JE	IS_COND.Y
-	CMP	AX,'=<'
+	CMP	AX,WD('=','<')
 	JE	IS_COND.Y
-	CMP	AX,'<='
+	CMP	AX,WD('<','=')
 	JE	IS_COND.Y
 
 IS_COND.N:
