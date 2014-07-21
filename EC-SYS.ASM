@@ -1,3 +1,5 @@
+	global	SYS_open
+
 %IF OS_WIN
 ;
 ;	EDX:filename
@@ -439,13 +441,21 @@ SYS_create.ERR:
 ;	CX:DX:distance
 
 SYS_seek:
-	MOVZX	EDX,AL
 
 	SHL	ECX,10h
 	MOV	CX,DX
 
+	MOVZX	EDX,AL
+
 	MOV	EAX,19	;sys_lseek
 	int	80h
+
+	MOV	EDX,EAX
+	SHR	EDX,10H
+	MOVZX	EAX,AX
+
+	CLC
+
 	ret
 
 ;	EBX:handle
