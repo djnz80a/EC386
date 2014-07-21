@@ -1,6 +1,13 @@
 
+%INCLUDE "CONFIG.ASM"
+
 	BITS	32
 
+	section ".text"
+
+	global	RUNBASE
+
+%if OS_WIN
 	EXTERN	_GetStdHandle@4
 	EXTERN	_GetCommandLineA@0
 	EXTERN	_WriteFile@20
@@ -11,7 +18,7 @@
 	EXTERN	_GlobalFree@4
 	
 	EXTERN	_ExitProcess@4
-
+%endif
 	
 	;GLOBAL _TEXT
 	GLOBAL	_MAIN0
@@ -144,9 +151,11 @@ UNINIT_DATA_SIZE EQU	0
 _MAIN0:
 _TEXT:
 
+RUNBASE:
 
 ;+400	".text"
 
+%if OS_WIN
 	PUSH	DWORD -10
 	;CALL	[IAT_GetStdHandle]
 	CALL	_GetStdHandle@4
@@ -165,11 +174,32 @@ _TEXT:
 	;CALL	[IAT_GetCommandLineA]
 	CALL	_GetCommandLineA@0
 	MOV	[CMDLINE],EAX
+%else
+	;MOV	EAX,_BSS_START
+	;MOV	[BSS_PNT],EAX
+
+	MOV	EAX,0
+	MOV	[HDL_STDIN],EAX
+	MOV	EAX,1
+	MOV	[HDL_STDOUT],EAX
+	MOV	EAX,2
+	MOV	[HDL_STDERR],EAX
+
+	;MOV	EAX,[ESP+4]
+	;MOV	[CMDLINE],EAX
+	;MOV	EAX,[ESP+0]
+	;MOV	[ARGC],EAX
+	;MOV	EAX,ESP
+	;ADD	EAX,4
+	;MOV	[ARGV],EAX
+
+	MOV	EAX,HELLO_STR
+%endif
 
 	MOV	ESI,EAX
 	CALL	_PUTSTR
 
-
+		JMP	SYS_exit
 
 
 	JMP	TEST_HELLO
@@ -371,6 +401,7 @@ _PUTSTR:
 _PUTSTR.R:
 	RET
 
+%if OS_WIN
 __PUTCHR:
 	PUSHAD
 
@@ -392,6 +423,24 @@ __PUTCHR:
 	POPAD
 	RET
 
+%else
+__PUTCHR:
+	PUSHAD
+
+	MOV	[PUTCHR_BUF],AL
+
+	MOV	EDX,1		;len
+	MOV	ECX,PUTCHR_BUF	;address
+	MOV	EBX,1		;stdout
+	MOV	EAX,4		;sys_write
+	INT	80H
+
+	POPAD
+	RET
+
+
+%endif
+
 
 GMEM_FIXED	EQU	00000000H
 GMEM_ZEROINIT	EQU	00000040H
@@ -399,6 +448,7 @@ GMEM_ZEROINIT	EQU	00000040H
 ;	EAX<size
 ;	>EAX memory address
 
+%if OS_WIN
 __ALLOC:
 	MOV	EBX,GMEM_FIXED+GMEM_ZEROINIT
 	PUSH	EAX
@@ -415,15 +465,29 @@ __ALLOC:
 	POPAD
 
 	RET
+%else
+
+__ALLOC:
+	JMP	0
+	RET
+%endif
 
 ;	EAX<memory address
 
+%if OS_WIN
 FREE:
 	PUSH	EAX
 	;CALL	[IAT_GlobalFree]
 	CALL	_GlobalFree@4
 
 	RET
+%else
+
+FREE:
+	JMP	0
+	RET
+
+%endif
 
 ;	EBX:FILE*
 ;	ECX:size
@@ -1311,12 +1375,28 @@ TOUPPER.R:
 ;	al=code
 
 INT21_exit:
+%if OS_WIN
 	MOVZX	EAX,AL
 	PUSH	EAX
 	;CALL	[IAT_ExitProcess]
 	CALL	_ExitProcess@4
 
 	RET
+%else
+
+;
+;	al=code
+;
+
+SYS_exit:
+	MOVZX	EAX,AL
+	MOV	EBX,EAX
+	MOV	EAX,1	;sys_exit
+	int	80h
+	RET
+
+
+%endif
 
 ;
 ;
@@ -1342,3 +1422,6 @@ MYDTA:
 	CALL	INT21_exit
 
 	;ALIGN	FILE_ALIGN
+
+
+HELLO_STR:	DB	"Hello, WOrld!",0dh,0ah,0

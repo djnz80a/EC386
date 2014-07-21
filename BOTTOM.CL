@@ -1,6 +1,8 @@
 
 	BITS	32
 
+	section ".data"
+
 FILE_ALIGN EQU	1000h	;##
 
 	GLOBAL	BOTTOM
